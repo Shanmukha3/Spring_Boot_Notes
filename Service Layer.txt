@@ -1,0 +1,304 @@
+Overview -1:
+
+reduce tight coupling: separate file make othe methods and assign objects
+remove dependency: using framework
+Spring framework:
+	beans --> objects
+	dependency injection by Spring IOC COntainer
+		BeanFactory
+		ApplicationCOntext entends BeanFactory
+
+Config metadata
+	java based 
+		class create with @Configuration
+		methods by @Bean
+		getBean()
+			(name="object1")
+	java annotation
+		class with @Configuration + @ComponentScan
+		annotate class with @Component
+		getBean() of ApplicationCOntext
+			(value="object1) or ("Object1)
+
+Autowired used to remove 3rd step of above
+
+@SprinBootApplication
+	to remove 1st step also
+	@Configuration + @ComponentScan + @EnableAutoConfiguration
+	
+---------------------------------------------------------------------------------------------------------
+
+Spring Layer using Spring
+
+1) why Spring
+2) Spring IoC Container
+3) Spring Boot
+4) Logging in spring boot(Self study)
+5) 
+
+
+
+-------------------------------------------------------------------------------------------------------
+Service layer:
+1) Presentation layer -- Service Layer --persistence layer -- database
+
+--------------------------------------------------------------------------------------------------------
+why spring??
+
+1) tightly coupling: creating object of one class in method of another class.
+2) flow:
+	object of welcome class
+	using object call method in welcome class
+	in that method:
+		create obj for welcome msg class
+		call object in welcome msg class
+3) to reduce the tightly compuling we want to inverse the control:
+3) new flow after doing IOC:
+	create obj for welcome msg class
+	object of welcome class by passing welcomemsgclass object to constructor
+	using object call method in welcome class
+	in that method:
+		call object in welcome msg class
+
+4)in IOC flow we will inject the object manually to the constructor but we can make this process automatic by dependency Inection.
+5) dependency Injection:
+	the process of creating, assembling, wring the dependencies is taken care by an external framework.
+6) there are many frameworks to do this dependency Injection: among them Spring boot is one of them which is open source and support java.
+7) 
+
+
+---------------------------------------------------------------------------------------------------------
+Spring IoC Container
+
+1) As we have created project we know the dependencies but spring can be know by giving some data by user.(that data is called as Configuration metadata given to spring framework).
+2) sub module of Spring framework is Spring IoC Container which help to Inject dependencies
+3) while injecting objects are created, this objects that Spring framework creates called as Spring BEANS or BEANS
+4) Configuration metadata can be of 3 types:
+	1. XML
+	2. Java Based
+	3. Java Annotation Based
+5) Spring IoC Container is represented by means of:
+	1. interface BeanFactory
+		getBean() -- objects or BEANS will be created only when we invoke getBean()
+		Advantage of getBean() of BeanFactory:
+			1. for big applications memory usage should be efficient then it is useful
+		disadvantage:
+			1. time will taken to create objects sperately
+	2. interface ApplicationContext extends BeanFactory
+		getBean() -- objects or BEANS will be created when the the class is loaded
+6) to use this interfaces we want some classes, here in spring already classes are implemented they are:
+	1. class ClassPathXMLApplicationContext implements ApplicationContext
+	2. class AnnotationConfigApplicationContext implements ApplicationContext
+7) which class to be used depends on Configuration metadata,(for XML we will use 1st)
+
+----------------------------------------------------------------------------------------------------------------
+firstly add dependency of spring 
+
+Java based configuration metadata:
+1) we need to create a separate class to act as configuration class with annotation as @Configuration
+2) Inside the configuration class, we need to create methods which will be RETURNING the beans with @Bean
+	* methods should not return as void.
+3) use getBean() method of ApplicationContext to get the beans.
+	1. getBean() can be called with help of object
+	2.ApplicationContext obj=new AnnotationConfigApplicationContext(configurationclass.class)
+	3.classname obj1= obj.getBean(methodsname.class)
+		1. if classname is parent then no error
+		2. if classname is child then we will get error as getbean will call from parent which cannot save in child.so typecasting is required
+			classname obj1=(Classname) obj.getBean(methodsname.class)
+	4. as we know every object have name ,bydefault methodname will be object name
+	5. if we want to change the name use:
+		@Bean(name="Welcome1")
+	6. Spring will create only one object even we call the bean 1000 times.
+	7. multiple objects can be possible by spring which is some different concept.
+
+
+1) setter Injection: if we use setter to inject dependencies(object) after creating one object (using created object we will call setter method and assign object)
+	
+2) Constructor Injection: inside configuration class, within methods while returning one object return objects by creating new object.
+
+
+
+
+Java Annotation based configuration metadata:
+
+1) we need to create a separate class to act as configuration class with annotation as @Configuration and @ ComponentScan and @PropertySource("messages.properties") for accessing properties(if there means)
+2) Annotate the classes of which spring needs to create BEANS by using annotation @Component
+3) use getBean() method of ApplicationContext to get the beans.
+
+
+1. In this only setter Injection will work which means Constructor Injection will not work because spring in annotation approach uses only parameterless constructor.
+2. java annotation will be easier as it requires less code.
+3. bydefault objects name will be class name and starting with small letter.
+4. if we want to change the object name then keep below msg above that resptceitbe class:
+	@Component("objectname") or @Component(value = "objectname")
+5. @ component is general annotation , for service layer classes we can keep @Service which is good practice	
+	service layer     - @Service or @Service("objectname")
+	presistance layer - @Repository or @Repository("objectname")
+	controller layer  -@Controller or @Controller("objectname")
+6. @ComponentScan used to create the beans by scaning in same and subpackages
+7. if we want to scan any other package then @ComponentScan(basePackages="com.inf.display com.infy.welcome")
+	multiple packages can be used, separated by space.
+
+--------------------------------------------------------------------------------------------------
+
+Properties file in spring framework:
+
+in annotation configuration file:
+1. along with @Configuration, @ComponentScan add @PropertySource("Classpathofpropertyfile")
+2. If we want to use properties in spring boot then we have:
+	Environemnt e=configurationobj.getEnvironment();
+	SYSO(e.getProperty("SUCESS_MSG"));
+	
+
+---------------------------------------------------------------------------------------------------------
+
+Dependency Injection using Autowiring
+
+1. to use this we will use annotation of - @Autowired
+2. Autowiring is used to automatic the process of injecting dependencies without using setter methods and constructuors.
+3. can be used :
+	1. above variable (easier)
+	2. above setter method
+	3. above constructor
+4. auto wired can be used for only methods or class having annotation  as component or service or resporitory or etc.....
+5. 
+
+
+---------------------------------------------------------------------------------------------------------
+
+Spring Boot:
+
+1. main difference spring and spring boot:
+	1. in spring boot we don't need of any seperate configuration additionally, the main methods will act as configuration class so for that we want to keep the @SpringBoootApplication
+	2. spring boot can be made by:
+		1. spring initializer online in browser
+		2. add parent dependency to the spring project.
+2. Starters -Sub modules of spring book like aop, web, jdbc, test
+3 Runners -(Soon after the starting of application if we want to do some operations we will use runners)
+	 interfaces 
+	we use interface CommandLineRunner
+		public void run(String...args)
+	- used to do something soon after the application starts 
+		- for running we will use abstract void run()
+		- that main class should implements CommandLineRunner 
+	@Override
+	public void run(String... args) throws Exception {
+		LOGGER.info("Welcome to CommandLineRunner");
+	}
+4. this runner will not be supported in spring
+5. when we use autowired for interfaces
+	when that interface was extended by 2 classes then auto wired confuse to which class method it should form Auto wire in such situation we will use @Qualifier("Methodname")
+6. 
+
+
+--------------------------------------------------------------------------------------------------------------
+
+AOP:Aspect Oiented Programming
+
+1. cross cutting concerns: (some thing that as much important as business logic but that things should be maintained)
+	logging, exception handling, user logging and logout 
+	- to maintain this concers we will write logging code multiple times where needed.
+	- if we want to write more time then handling is difficult so to overcome this we will centralize that
+2. AOP work is:
+	to make some thing centralized
+3. add the aop starter into our pom.xml file
+	<dependency>
+    		<groupId>org.springframework.boot</groupId>
+   		 <artifactId>spring-boot-starter-aop</artifactId>
+	</dependency>
+3. Aspect -
+	this is a class we want to create
+	@Component 
+	@Aspect
+4. Advice -
+	methods in Aspect class are called as Advice
+	this methods having logic for handling cross cutting concerns.
+	to make trigger of this methods at which time we will use:
+		@After		- 
+		@Before		-
+		@AfterReturning - if method successfully execute then it comes same to same execution point then this will executed
+		@AfterThrowing  - we will use if method throws some error
+		@Around 	- @Before + @After
+			- to use Around, for this around method we should pass parameter as Proceeding Point joinPoint
+			- Proceeding Point is a interface
+
+			@Around(""execution(**(..)")
+			public void logAround(Proceeding Point joinPoint) throws Throwable){
+				Syso("Before starting method execution")
+				joinPoint.proceed();
+				Syso("After ending of method Exception")
+			}
+
+	ex: @After("execution(**(..)")
+			public void logAround(Proceeding Point joinPoint) throws Throwable){
+				Syso("After Ending method execution")
+			}
+
+5. Join point - 
+	METHOD EXECUTION
+	when an advice need to be trigged
+Ex: when displaymessage of DisplayMessage class is invoked, trigger the advice
+6. pointcut Expresssion-
+	above example is in English in which spring does not understood so syntax to tell is called as pointcut Expresssion.
+	syntax:
+		execution(<access_modifier> <return_type> <fully_qualified_classname>.<method_name>(<parameters>))
+		here:
+			access_modifier = optional
+			return_type	= mandatory, *(represent any return type)
+			fully_qualified_classname = optional, *, *impl
+			method_name  = mandatory, *
+			parameters = (..)
+7. while using @AfterReturning if we want to print want returning value to be in logging file then :
+	@AfterReturning(
+		pointcut ="execution(**(..)"),
+		returning="value")
+	public void logAfterReturning(String value){
+		Syso("logging by "+value)
+	}
+	note: variable for returning should be same in parameter also
+8. while using @AfterThrowing if we want that exception
+	@AfterThrowing(
+		pointcut ="execution(**(..)"),
+		throwing="e")
+	public void logAfterReturning(Exception e){
+		Syso("Exception is "+e)
+	}
+	note: variable for throwing should be same in parameter also
+
+--------------------------------------------------------------------------------------------------------------
+
+Testing using Mockito:
+
+	A,B are 2 methods(m1,m2) in 2 different classes. with in method1 some statements inside if block, if block will be true of if m2 return true.
+if we know if we pass non empty string then m2 will return true.
+now i am passing parameter as "Hello" which is non empty so m2 confirm will give u true so we no need to call that method so in place of that method we will directly keep true using Mockito 
+
+1. Mocktio: used to replace particular code line with another line.
+2. Mockito.when(display.displaMessage("Hello").thenReturn(true);
+3. Mock object:
+	@Mock			// for which one we want to create object
+	DisplayMessage display;
+	
+	@InjectMocks  		// in which class we want to insert the Mocks for that we want to create object
+	Welcome welcome =new Welcome();
+
+public void validdisplayWelcomeMessage()
+{
+	@Mock			
+	DisplayMessage display;
+	
+	@InjectMocks  		
+	Welcome welcome =new Welcome();
+
+	Mockito.when(display.displaMessage("Hello")).thenReturn(true);
+	String actual =welcome.displayWelcomeMessage("Hello");
+	Assertions.assertTrue(actual);
+}
+
+4. Mockito.when(display.displaMessage("Hello")).thenReturn(true);
+		or
+Mockito.when(display.displaMessage(Mockito.anyString())).thenReturn(true);
+
+
+---------------------------------------------------------------------------------------------------------------
+

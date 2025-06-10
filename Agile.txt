@@ -1,0 +1,64 @@
+Steps in lifecycle:
+1. requirement
+2. Design
+3. Coding
+4. testing
+5. deploying
+6. maintenance
+
+
+project roles:
+1. Sponsor - provides budget
+2. Business Team - provides functional requirements
+3. project manager - manages projects and budgets
+4. architect - plans structure and working of project at high level
+5. UX designer - provides detailed design of user experience
+6. software developers - translates design to working solution
+7. software testers - test if solution meets requirements
+
+3 levels of support after deploying:
+L1 - no technical support
+L2 - technical issues
+L3 - can fix more complex issues.
+
+1. traditional SE model:
+	1. Waterfall model:
+		1. sequentially will be happen
+		2. requirement - analysis - construction - testing - deployment
+		3. if all the requirements are known and there will be no changes further then we can go for this model.
+		4. every step feedback will be taken
+	2. Spiral model:
+		1. plan - rish analysis - develop - deploy
+	3. RAD(rapid application development):
+		1. if we want to release model sooner
+	4. Agile:
+		1. respond to changes quickly
+		2. quick time to market ( every iteration will release the working model)
+		3. develop software more volatily
+
+2. 3-4-3
+	3- roles(product owner, scrum master, development team)
+	4- ceremonies(sprint planning meeting, daily scrum meeting, sprint review, sprint retrospection)
+	3- artifacts(product backlog, sprint backlog, increment)
+
+
+product backlog(we want to plan)
+capacity planning
+standup meeting
+
+
+
+sprint - 11 days  (8.5 hours max)
+
+
+
+
+
+
+git init
+git checkout -b main
+git add .
+git commit -m "first commit"
+git remote add origin http://myslab42s08:3000/Feb25-Inretns-Demo/demo-group51-frontend.git
+git push -u origin main
+

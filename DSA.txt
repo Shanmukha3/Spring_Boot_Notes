@@ -1,0 +1,119 @@
+Arraylist:
+
+List<String> food = new ArrayList<String>(); 
+Boolean add(n)
+object get(index)
+int size()
+Boolean isEmpty()
+void .set(index,element)
+void add(index,n)
+Boolean addAll(created newl array)
+Boolean contains(n)
+int  indexOf(n)
+object remove(index)
+
+Iterator:
+ListIterator<Integer> item = numbers.listIterator();
+hasNext()
+next()
+hasPrevious()
+Previous()
+
+LinkedList:
+add(n)
+add(index,n)
+clear()
+get(index)
+remove(n)
+set(index,element)
+size()
+object[] toArray()
+
+* HashSet depends on the equals() and hashCode() methods for detecting duplicates and null values are allowed. 
+*LinkedHashSet depends on the equals() and hashCode() methods for detecting duplicates and null values are allowed. Elements are returned in the order of their insertion. 
+*TreeSet depends on compareTo() method for ordering as well as for detecting duplicates.in case of String, the order will be alphabetical order.
+
+*set:
+add(n)
+size)_
+isEmpty()
+contains(n)
+remove(n)
+clear()
+
+* HashMap:
+put(key,value)
+remove(key)
+get(key)
+size()
+isEmpty()
+clear()
+
+* hashmap,set -unordered
+  queue, arraylist - ordered
+*queue does not allow null but remaining will allow
+*in queue some methods through exception and some other with special output:
+	special output: offer, poll, peek
+	exception:	add remove,element	
+*
+
+
+
+
+
+
+
+linkedlist:
+	aggregation between node and linked list and self aggregation for node.
+
+Stack :
+	initially : top=-1, max size, array to be decleared.
+	create a constructor with max size as parameter.
+	class Stack {
+	private int top; 
+	private int maxSize; 
+	private int[] arr;
+	Stack(int maxSize) {
+		this.top = -1; 
+		this.maxSize = maxSize;
+		arr = new int[maxSize]; 
+	}
+	1. push
+		isfull condition( top >= (maxSize - 1) )
+	2. pop: 
+		isEmpty()( top<0 )
+	3. peek
+application:
+	undo, redo 
+	sites visited
+
+Queue: 
+	class Queue {
+	private int front, rear, maxSize;
+	private String arr[];
+	Queue(int maxSize) {
+		this.front = 0;
+		this.rear = -1;
+		this.maxSize = maxSize;
+		this.arr = new String[this.maxSize];
+		}
+	}
+	1. queue full:
+		rear = maxSize - 1
+	2. queue empty:
+		front >rear 
+	3. enqueue:
+		isfull()
+	4. dequeue:
+		isempty()
+application:
+	Network Printer
+	Shared resource usage (CPU, memory access, etc.)
+	Handling calls in call centers
+
+Generics:
+The syntax for a generic method includes a list of type parameters inside angle brackets which appears before the method's return type.
+
+
+collections and classes:
+The methods of this class throw a NullPointerException if the collections or class objects provided to them are null.

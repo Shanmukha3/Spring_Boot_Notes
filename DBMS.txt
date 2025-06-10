@@ -1,0 +1,85 @@
+1. data(raw, unprocessed set of facts and figures ) -- information(giving name to data) -- knowledge(usage of that information).
+2. tuple or row: A relationship among a set of values in a table is represented by a row
+3. attribute or columns
+4. degree of table :no of attributes
+5. cardinality= no of rows.
+6. null values means not as 0, it means the value will be assigned after.
+	Domain means (different values we can keep for that attribute)
+7. super key: uniquely identify the row.(allows null values)(can have multiple of one table)
+8. candidate key: without any extra columns and without null values accepting columns.(can have multiple of one table)
+9. primary key: which will uniquely identify the row.(does not allow null values)(only one for table)(it should be candidate key)(minimal attributes candidate key)
+10. unique key: which have unique values(it can accept multiple null values because all the null values are different)
+11. composite key: combination of two or more(i.e...primary composite key)
+12. foreign key:  Foreign key columns identified in child tables must refer to the primary key or unique key of parent (foreign key in the child table can contain NULL values)
+13. is it possible to refer foreign key to any key other than primary key?---true but not good practice.  
+14. all the elements in the foreign key should be present in primary key but viceversa is not at all required
+15. in hierarchical database:
+	data arranged in tree format
+	each parent can have many children
+	each child should have only one parent.
+16. In network database:
+	data arranged in graph format
+	each parent can have many children
+	each child may have many parent.
+17.databases:(hierarchical, network, Relational, NoSQL, Object Oriented databases (e.g., DB4O and Zope DB), Graph Databases (e.g., Neo4J and Infinite graph))
+
+18.NoSQL (Not only SQL) database uses key-value, graph or document data structures to store data. These databases aim for simplicity of design, horizontal scaling and finer control over availability. 
+Examples of NoSQL databases are Cassandra, MongoDB, CouchDB, Orient DB, HBASE etc.
+19.Data integrity refers to the accuracy, consistency and reliability of data. It can be achieved by keeping some constraints.
+	Database Systems offer three types of integrity constraints:
+	1. Entity Integrity(keep constraint that every table should have primary key and show follow all properties)
+	2.Domain Integrity: (Data types entered and check constraint means we given age should be 2 character for vote and we want to check constraint that age should not less than 18.)
+	3.Referential Integrity : foreign key(every value of foreign key should be value of primary key)
+
+
+20.types of attributes: --4:
+	key : oval with underline
+	composite : Address
+	multivalued : double oval
+	derived : dotted line oval -- age, simple Intrest
+21. cardinality is (1:1, 1:M, M:M) commonly called cardinality ratio.
+22.relation ship is shown with diamond symbol and it can be uninary, binary, terinary, N-ary
+	uniary - only 1 entity involved in relationship.
+	binary - 2 entities involved
+	terniary - 3 entities involved
+	n-ary - >3 entities involved
+23. weak entity: (double rectangle) which doesn't exist in database on its own.
+24. steps for write ER schema:
+1.strong entity and its simple attributes
+2.weak entity, primary key of strong and kept as foreign in weak, attributes should include
+3.1:1 relations : keep one thing of 1st table as primary and in 2nd as foreign and add attributes of relation to the side of foreign key if an present.
+4. 1: N relation :1st side should be primary key of foreign key in N 
+5.N:N :we want to create new entity and want to make element in N,N as primary and that primary should be as foreign key in new table. 
+6.multi valued should be create new relation with its neighbor primary key as primary in new relation.(relation means new table)
+7. n-ary relation : similar process like N:N
+
+
+**  foreign key in child class and primary key in parent class**
+
+25. relation can also have attribute.
+26.in ER schema arrow will be there, start of arrow is foreign key and end as primary key.
+27.crow foot diagram(similar to java classes diagram) can be useful to represent the ER diagram.
+28.x->y where x =determinant and y->dependent
+29. fully functional dependent : using attribute(wither simple or composite) if we can find remaining all the attributes.
+30. partial functional dependent: a,b->c,d,e and b->d then partial dependency will be there.
+31. Transative functional dependency: a->b and b->c then a-c will be there 
+32.Normalization: reduce null values, optimizing the relations, decrease redundancy be making new table(ex: student roll, marks, dept, deptHOD here dept, depthod will repeat multiple times so make new table with dept, depthod and remove depthod inold table), to overcome below mentioned anomalys.
+33. Anomalys - insert Anomaly, delete Anomaly, update Anomaly
+34. An attribute in a table/relation can reference another attribute in the same table/relation and this is called Self Referencing Foreign Key
+35. total  7 normal forms:
+	1NF, 2NF, 3NF, BCNF, 4NF, 5NF, 6NF(if relations satisfy upto 3NF it if fine because remaining all are about joints)
+36. 1NF: All the values in that table should be atomic(smallest values), try to avoid null values, redudency by making another table
+37. 2NF: should be in 1NF, should be free from partial functional dependency.
+	*there are some non-key attributes that depend on part of this key
+	Remove partial dependency: create new table by removing the dependent variable from table and make that particular determinant and dependent into new table.(determinant will not be removed from first table)
+38.3NF: should be in 2NF, should be free from transitive functional dependency.
+	By making as new table.
+39. Tables in 3 NF are preferred in applications with extensive data modifications
+40. Tables in 2 NF are preferred in applications with extensive data retrieval.
+
+
+
+
+
+
+we told foreign can have null values.it it necessary to be null in primary key also?

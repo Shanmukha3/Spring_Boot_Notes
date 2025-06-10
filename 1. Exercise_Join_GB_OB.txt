@@ -1,0 +1,245 @@
+1. Exercise_Join_GB_OB
+
+select custlocation "LOCATION", brand, sum(quantitypurchased) productssold from product p inner join invoice i on i.productid= p.productid inner join customer c on i.custid=c.custid group by custlocation,brand order by custlocation,brand ;
+
+2.Exercise_Join_CoLocatedCustomers
+
+select distinct c1.custid, c1.custname, c1.custlocation from customer c inner join customer c1 on c.custlocation = c1.custlocation and c.custid <> c1.custid;
+
+3.Exercise_Join_FilterProducts
+
+select distinct p.pname,p.pcategory, p.review  from product p inner join product p1 on p.pcategory=p1.pcategory and p.review = p1.review and p.productid <> p1.productid where review <> 'Bad';
+
+4. Exercise_Join_LoyalCustomers
+
+select custid, vendorid, productid from invoice group by  custid, vendorid, productid having count(*) >1;
+
+5. Exercise_Join_UniqueCustomerProducts
+
+select distinct custname, productid from customer c left outer join invoice i on c.custid = i.custid;
+
+6.: Exercise_Join_AllVendors:
+
+select vendorname, pname from vendor v left outer join vendoroffering v1 on v.vendorid=v1.vendorid left outer join product p on v1.productid=p.productid;
+
+7.Exercise_OuterJoin_FilterMain_W
+
+select productid, NVL(invoiceid,'NOT YET SOLD') invoiceid from product p left outer join invoice i on p.productid = i.productid where pcategory='Clothing';
+
+8. Exercise_OuterJoin_FilterMain_O
+
+select productid, NVL(invoiceid,'NOT YET SOLD') invoiceid from product p left outer join invoice i on p.productid = i.productid and  pcategory='Clothing';
+
+9.Exercise_OuterJoin_FilterLookup 
+
+select productid, NVL(invoiceid,'Not sold since Sept,23') invoiceid from product p left outer join invoice i on p.productid = i.productid and '2023-08-31'< purchasedate;
+
+10.1: Assignment_Join_AndOr
+
+select distinct customerid, customername from customer c inner join subscription s on c.customerid=s.customerid where customertype in ('Regular','Prime');
+
+11. Assignment_Join_Where
+
+select journalid, publishername from journal j inner join publisher p on j.publisherid = p.publisherid where contactno is not null;
+
+12.Assignment_Join_CustomerWiseSubscriptionCount
+
+select customerid,customername,count(*) subscriptioncount from customer c inner join subscription s on c.customerid = s.customerid group by customerid,customername having count(*) >1;
+
+13.Assignment_Join_FilterStartdate::
+
+select customername, journalname, startdate, durationinmonths 
+from customer c inner join subscription s on c.customerid = s.customerid 
+inner join journal j on s.journalid = j.journalid where 
+startdate <='2023-11-01'
+
+14. Assignment_Join_SelectiveJournals
+
+select journalname, genre from journal j inner join subscription s on j.journalid = s.journalid where discountpercent >10;
+
+15.Assignment_Join_SameGenre_DifferentPublisher
+
+select distinct publishername, genre, rating from
+publisher p inner join journal j on p.publisherid =j.publisherid 
+inner join journal j1 on j.genre = j1.genre and j.publisherid <> j1.publisherid;
+
+16. Assignment_Join_CountPublisherWiseUniqueSubscriptions
+
+select publishername "PublisherName",count(distinct customerid) "NoOfUniqueSubscribers"
+from publisher p inner join journal j on p.publisherid = j.publisherid
+inner join subscription s on j.journalid = s.journalid group by publishername having count(*) >3;
+
+17.Assignment_Join_PublisherWiseMonthlyCharges
+
+select publishername, sum((monthlycharges*durationinmonths*(1-discountpercent/100))) totalrevenue from 
+publisher p inner join journal j on p.publisherid=j.publisherid
+inner join subscription i on j.journalid =i.journalid
+group by publishername order by sum((monthlycharges*durationinmonths*(1-discountpercent/100))) desc;
+
+18.Assignment_Join_CountPublisherWiseSubscriptions
+
+select publishername, count(distinct subscriptionid) No_Subscription from
+publisher p inner join journal j on p.publisherid=j.publisherid
+inner join subscription s on j.journalid = s.journalid
+group by publishername having count(subscriptionid) >= 3;
+
+19.  Assignment_Join_FilterCustomers
+
+select customername, journalname from 
+customer c inner join subscription s on c.customerid = s.customerid 
+inner  join journal j on s.journalid=j.journalid
+where genre ='Trade' and state ='Illinois';
+
+20. Assignment_Join_SamePublisher_SameGenre
+
+select distinct journalid, journalname, genre, publisherid from 
+journal j inner join journal j1 on j.publisherid=j1.publisherid 
+and j.genre=j1.genre and j.journalid <> j1.journalid;
+
+
+21. Assignment_Join_CountSubscriptions
+
+select publishername,NVL(genre,'NOT PUBLISHED') genre, count(subscriptionid) subscribercount from 
+publisher p left outer join journal j on p.publisherid = j.publisherid
+left outer join subscription s on j.journalid = s.journalid 
+group by publishername, genre;
+
+22. Assignment_Join_AllPublishers
+
+select publishername, contactno, NVL(journalname,'NO JOURNAL') journalname from 
+publisher p left outer join journal j on p.publisherid = j.publisherid;
+
+23. Assignment_Join_Publisher'sJournals
+
+select publisherid, NVL(journalname,'Yet To Publish') journalpublished from 
+publisher p left outer join journal j on p.publisherid=j.publisherid
+
+24.  Assignment_Join_FilterAcademicJournals
+
+select  distinct publishername, NVL(journalname,'NA') journalname from
+ publisher p left outer join journal j on p.publisherid =j.publisherid 
+and genre='Academics' where rating >=4;
+
+------------------------------------------------------------------------------------------------------
+nested queries:
+
+1. Exercise_Subquery_MaxAvgDiscount
+
+select max(dis) Max_discount from (select avg(discount) dis from invoice group by productid);
+
+2. Exercise_Subquery_MaxCount
+
+select max(purchase) max_purchases from (select count(*) purchase from invoice group by custid);
+
+3. Exercise_Subquery_MaxPurchaseDate
+
+select invoiceid, purchasedate from invoice where purchasedate = (select max(purchasedate) from invoice);
+
+4.  Exercise_Subquery_AvgPrice
+
+select  productid, avg(price) Averageprice from vendoroffering 
+group by productid having avg(price) > (select avg(price)pri2 from vendoroffering);
+
+5. Exercise_Subquery_Having
+
+select productid from invoice group by productid having avg(discount) >
+(select avg(discount) dis1 from invoice where productid='P101');
+
+6. Exercise_Subquery_CustomerCount: 
+
+select custname from customer where custid in 
+(select custid from invoice group by custid having (count(quantitypurchased))>=2);
+
+7.  Exercise_GroupBy_MinTotalQuantity
+
+select productid  from invoice group by productid having sum(quantitypurchased)=(
+select min(sales) from (
+(select productid,sum(quantitypurchased) sales from invoice group by productid )));
+
+8.  Exercise_Subquery_MinTotalQty
+
+select productid  from invoice group by productid having sum(quantitypurchased)=(
+select min(sales) from (
+(select productid,sum(quantitypurchased) sales from invoice group by productid )));
+
+9. Exercise_Subquery_MinTotalQuantity
+
+select productid, pname  from invoice i inner join
+product p on i.productid=p.productid group by productid, pname having sum(quantitypurchased)=(
+select min(sales) from (
+(select productid,sum(quantitypurchased) sales from invoice group by productid )));
+
+
+Exercise:
+
+1.Assignment_Subquery_SubscribedJournals
+
+select distinct journalid, journalname, genre from 
+subscription s inner join journal j on s.journalid = j.journalid 
+
+2.Assignment_Subquery_JoinstoSubsquery:
+
+select journalname, genre from journal where journalid in(
+select distinct journalid from subscription);
+
+3. Assignment_Subquery_RoundedAvgRating
+
+select round(avg(rating)) Rating from publisher where publisherid in (
+select distinct publisherid from journal);
+
+4. Assignment_Subquery_SelectiveCustomers
+
+select customerid, customername, state from customer where state in(
+    select state from customer where customername='Robert'
+) and customername<>'Robert';
+
+5. Assignment_Subquery_CustomerWith>1Subscription
+
+select customerid, customername from customer where customerid in(
+select customerid from subscription group by customerid having count(*) >1);
+
+6. Assignment_Subquery_MinMonthlyCharges
+
+select publisherid, publishername from publisher where publisherid=(
+select publisherid from journal where monthlycharges=(
+select min(monthlycharges) from journal))
+
+7. Assignment_Subquery_MinMonthlyChargesOfTradeGenre:
+
+select publisherid, publishername from publisher where publisherid=(
+select publisherid from journal where monthlycharges=(
+select min(monthlycharges) from journal where genre='Trade'))
+
+8. Assignment_Subquery_MaxMonthlyChargesOfTradeGenre
+
+select distinct journalname, monthlycharges from journal where monthlycharges=(
+select max(monthlycharges) from journal where genre='Trade') and genre='Trade';
+
+9.  Assignment_Subquery_CustomerFromSameStateDiffCity
+
+
+select distinct c1.customerid, c1.state, c1.city from customer c1 inner join customer c2 
+on c1.state=c2.state and c1.city <> c2.city
+
+
+HO_1:
+
+select bookingid, flightid,to_char(bookingdate,'Mon') bookingmonth,
+to_char(bookingdate,'dd') bookingdate from booking 
+where to_char(bookingdate,'yyyy-mm')
+ between '2018-10' and '2019-03';
+
+
+Ho_7:
+
+select custid,custname from customer where custid in (
+select custid from booking group by custid having count(*)=(
+select max(counting) from(
+select custid,count(custid) counting from booking group by custid)));
+
+Ho_8:
+
+select distinct flightid,(flightcharge) flightcharge, bookingdate from
+ booking where (flightid,flightcharge) in(
+select flightid,min(flightcharge) from booking where (flightid) in (
+select distinct flightid from booking) group by flightid);

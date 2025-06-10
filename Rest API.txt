@@ -1,0 +1,461 @@
+Resource : where some useful items are present 
+URI - user resource interface : used to find the resource
+HTTPS : using this we will communicate with resource using some file in formate of JSON or XML
+REST: Representational state transfer -
+REST by default work with JSON file.
+Java is object oriented language where this objects language cannot understood to some other languages there REST template useful to represent that objects in that form of common language.
+REST will do all this using web service(medium)
+Web client - using this we can do Asynchronously doing transaction that was done by REST API
+
+-----------------------------------------------------------------------------------------------------------------
+Basic terminology:
+
+1) Web Client: which interact with server 
+2) Web server: where application is hosted and request is been processes and give us response.
+3) URL : this one is used by Web client to locate the server and resource.
+4) HTTP: protocol of communication between client and server. which take and go HTTP request and will give you HTTP response.
+	This HTTP request have info about action that client is requesting.where info can be different forms like:
+	1. GET - Read
+		1. get the resource identified by this URL.
+		2. If parameters have to be passed along with GET request then they are passed by appending a query string to the URL
+	2. POST - Create
+		1. post the data to the resource identified by this URL
+		2. The data is sent as a body of the message
+		3. HTTP response data has 3 parts:
+			1. HTTP version
+			2. Status Code
+			3. Describing status code
+		4. some status codes are:
+			1. 200-OK	
+			2. 204-No Content
+			3. 301-Moved  Permanently 
+			4. 401-Not Authorized 	
+			5. 403-Forbidden -  Server Refused to Fulfill the request 
+			6. 404-Not  Found- The request Resource  not exits
+			7. 408- Request Timeout	
+			8. 500-Server Error- script server configuration errors
+	3. PUT - Updates
+	4. Delete - Delete
+
+5) Web Container: 
+	1. to process the client request for generating content we need to execute web applications(composed of web components like JSP, Servlets). 
+	2. to execute we need some environment called as web container.
+	3. web server take help of this web container to execute.
+	4. ex of web container: Apache tomcat, glassfish
+
+--------------------------------------------------------------------------------------
+
+Web Services:
+
+1. In short, web services are the glue that holds together today's complex application.
+2. Types of web services:
+	1. SOAP - Simple object access protocol
+		1. format is XML
+		2. Protocol specification for messaging
+		3. a protocol defining that format and structure of msg exchanged btw web services
+		4. WSDL - web services description language
+		5. UDDI - universal description, discovery and Integration
+			1. this is a service that advertise their presence
+	2. RESTFUL Webservice:
+		1. it is not a protocol but an articutical style developing loosely coupled application how applications interact.
+		2. Rest exchange data using format like text, html, JSON, XML
+		
+3. Resource Centric: anything that can be identified using unique URI. Resource can be manipulated by HTTP request(GET, POST,PUT,etc...)
+
+--------------------------------------------------------------------------------------------------------------------
+RESTful web services:
+
+1. REST - representation state transfer
+2. principles of REST: 
+	1. Uniform Interface:
+		every resource have different URI. to perform create, update, delete we will use different HTTP methods but on same URI for that particular resource.
+	2. Stateless:
+		exchange info should be valid and gives all imp info.
+	3. client server
+	4. cacheable:
+	5. Layered System
+
+3. Any web services that satisfy REST principals called as RESTful Web services. This web services are usually exposed to third part applications as API.
+		
+*****What is API??
+API are simply called as web services which is having multiple application in single place.
+
+-------------------------------------------------------------------------------------------------------------------
+REST URI templates:
+
+1. each resource will have it URI so common template is:
+	http://infybank.com/customers/{customerid}
+extract data for customer whose customer id is customerid.
+2. with in {} called as path variable.
+
+2. this resource will be represented with different format:
+	1. JSON: lightweight data interchange format which is easy for machines.
+	ex. http://www.infy.com/employees/john
+	output in JSON formate: {   
+			"name": "John",
+    			"city":"California",
+   			 "phoneno":998765432
+		}
+	output in XML:
+		<employee>
+    			<name>John</name>
+    			<city>California</city>
+    			<phoneno>998765432</phoneno>
+		</employee>
+3. State Transfer  means:
+	when we make request using HTTP(GET, PUT, ...) means we are asking for either present state(retrieve data) or asking for desired state(update info).
+
+---------------------------------------------------------------------------------------------------------------
+Richardson Maturity Model (RMM):
+
+The Richardson’s Maturity Model is used to divide REST based web services in different categories based on how much they follow REST principles
+
+it is having 4 levels:(0,1,2,3)
+
+-------------------------------------------------------------------------------------------------------------------
+Sample API coding:
+
+@RestController
+@RequestMapping(value = "/infybank")
+public class CustomerAPI {
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private Environment environment;
+ @GetMapping(value = "/customers")
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() throws InfyBankException {
+        List<CustomerDTO> customerList = customerService.getAllCustomers();
+        return new ResponseEntity<>(customerList, HttpStatus.OK);
+    }
+    @GetMapping(value = "/customers/{customerId}")
+    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Integer customerId) throws InfyBankException {
+        CustomerDTO customer = customerService.getCustomer(customerId);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+    @PostMapping(value = "/customers")
+    public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customer) throws InfyBankException {
+        Integer customerId = customerService.addCustomer(customer);
+        String successMessage = environment.getProperty("API.INSERT_SUCCESS") + customerId;
+        return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+    }
+    @PutMapping(value = "/customers/{customerId}")
+    public ResponseEntity<String> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerDTO customer)
+            throws InfyBankException {
+        customerService.updateCustomer(customerId, customer.getEmailId());
+        String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
+        return new ResponseEntity<>(successMessage, HttpStatus.OK);
+    }
+    @DeleteMapping(value = "/customers/{customerId}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Integer customerId) throws InfyBankException {
+        customerService.deleteCustomer(customerId);
+        String successMessage = environment.getProperty("API.DELETE_SUCCESS");
+        return new ResponseEntity<>(successMessage, HttpStatus.OK);
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------------
+Cross- origin Resource Sharing(CORS):
+1. used to showcase the API to the client or users by some security feature in browser that allows/controls the webpage which give request the server.
+2. we want to keep at the RestController level
+3. Different origins:
+	1. cross orgin  - with in different applications.
+	2. same origin  - with in same application.
+4. 
+
+
+pratical knowledge of CORS:
+
+In main class:
+	1.class should implement WebMvcConfiguration
+	2. @Override
+	  public void override the method addCorsMapping(CorsRegistry registry){
+		registry.addMapping("/**").allowedOrigins("https://localhost:3000").allowedMethods("GET","POST");
+	  }
+In API file:
+	1. add annnotation @CrossOrigin 			- for allowing all ports
+			@CrossOrigin("http://localhost:3000")	- allowing only particular port
+
+-------------------------------------------------------------------------------------------------------------------------
+REST template:
+1. responses will be happen in Synchronous way which means at certain instance of time only one response is possible and remaining all will be blocked.
+2. called as blocking agent
+3. To over come this there came as Web Client.
+
+----------------------------------------------------------------------------------------------------------------------
+Web Client:
+1. act in Asynchronous way which means which allow multiple responses at same time.
+2. so called as non blocking agent
+3. Web client is provided by Spring.
+4. from this we can call REST API method,  that method will call service layer method.
+
+
+working:
+1. Add dependency
+	<dependency>
+   		<groupId>org.springframework.boot</groupId>
+  	        <artifactId>spring-boot-starter-webflux</artifactId>
+	</dependency> 
+
+2. create the web client instance
+	WebClient webClient =WebClient.create();
+3. send HTTP request to REST API.
+	1. GET HTTP request:
+		Mono<CustomerDTO> customerDTOMono = webClient.get()
+   		.uri("http://localhost:8080/customers/{customerId}")
+   		.retrieve()
+   		.bodyToMono(CustomerDTO.class);
+	2. POST request:
+		String response = webClient.post()
+		.uri(url)
+		.bodyValue(customer)
+		.retrieve()
+		.bodyToMono(String.class)
+		.block();
+	3. PUT request:
+		 webClient.put()
+		.uri(url, customerDTO.getCustomerId())
+		.bodyValue(customerDTO)
+		.retrieve();
+	4. DELETE request:
+		1. we want to keep annotation of @SuppressWarnings("deprecation")   -- if we want to change output formate then use this annotation and subscribe.
+		webClient.delete().uri(url, 							customerId).exchange().
+		subscribe(response -> {
+		if (response.statusCode().value() == 200) {
+		LOGGER.info("Customer deleted successfully");
+		} else {
+		LOGGER.error("Failed to delete customer");
+		}
+		});
+	ex for methods:
+		public void addCustomer(CustomerDTO customer) {
+       		 String url = "http://localhost:8765/infybank/customers";
+      		  WebClient webClient = WebClient.create();
+        	String response = webClient.post()
+		.uri(url)
+		.bodyValue(customer)
+		.retrieve()
+		.bodyToMono(String.class)
+		.block();
+        	LOGGER.info(response);
+        	LOGGER.info("\n");
+   		 }      
+4. we will get monoobject in about step so convert that to blocking object.
+	CustomerDTO customerDTO = customerDTOMono.block();
+		 here block means until request is processed it will be in blocked state this can help others to request the same API or application.
+5. Use the customerDTO object to access the data returned by the REST API.
+
+Termanology:
+1. get: get, uri(str, id), retrive, bodyToMono, block        (CustoerDTO)
+2. post: post, uri, bodyvalue, retrive, bodyToMono, block    (String)
+3. put: put, uri(str, id), bodyvalue, retrive
+4. Delete: delete, uri(str, id), exchange, subscribe(response->{if(response.statuscode().value()==200){}else{}});
+
+----------------------------------------------------------------------------------------------------------------------
+Produces and Consumes in Spring REST:
+
+1. add dependency
+	<dependency>
+		<groupId>jakarta.xml.bind</groupId>
+		<artifactId>jakarta.xml.bind-api</artifactId>
+	</dependency>
+2. @XmlRootElement:
+	1. add this annotation to main DTO file
+	2. represent root element of an XML document.
+3. with in HTTP requesting add produces or consumes attribute.
+	1. if we want to specify the particular input type then use consumer
+		(generally use in post)
+		1. plain text: consumes = “text/plain” 
+		2. JSON      : consumes = “application/json”
+		3. XML	     : consumes = “application/xml”
+		4. plain or XML: consumes = {"text/plain", "application/xml"}
+		5. any type  : consumes = "text/*"
+	2. if we want to specify the particular output type then use producer
+		(generally used in get)
+		1. plain text: produces = “text/plain” 
+		2. JSON      : produces = “application/json”
+		3. XML	     : produces = “application/xml”
+		4. plain or XML: produces = {"text/plain", "application/xml"}
+		5. any type  : produces = "text/*"
+	@GetMapping(value = "/customers/{customerId}", produces = "application/xml")
+
+	
+-----------------------------------------------------------------------------------------------------------------
+exception handling?
+
+1. to specify the exact error we will use try catch exception handling.
+2. 2 ways of exception handling:
+	1. Using @RestControllerAdvice
+		1. In this approach, a central exception handler class is created to handle all the unhandled exceptions thrown from your code.
+		2. create class an annotate with @RestControllerAdvice
+		3. with in class create method that handles the exception and annotate with @ExceptionHandler
+		@RestControllerAdvice
+		public class ExceptionControllerAdvice {
+   		 @Autowired
+		private Environment environment;
+		 @ExceptionHandler(Exception.class)
+		public ResponseEntity<String> exceptionHandler(Exception exception) {
+        	return new ResponseEntity<> (environment.getProperty("General.EXCEPTION_MESSAGE"), 
+        	HttpStatus.INTERNAL_SERVER_ERROR);			
+	}
+}
+		4. we can also add extra info about error.
+		5. here Exception in ExceptionHandler annotation and inside parameter should be same or we can keep annotation either out parameter like  @ExceptionHandler
+
+	2. Using ResponseStatusException class
+		1. there will be no creation of separate class it is already present. (i.e.. class is ResponseStatusException) 
+		2. we need to create instance of that class by providing HttpsStatus code, getproperty msg, exception.
+	@GetMapping(value = "/customers/{customerId}")
+public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Integer customerId) throws InfyBankException {
+		try {
+			CustomerDTO customerDTO = customerService.getCustomer(customerId);
+			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+		} catch (Exception exception) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, environment.getProperty(exception.getMessage()), exception);
+		}
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Validation in DTO class:
+
+1. add dependency with name spring-boot-validation 
+2. keep @valid in that API method Infront of parameter of that method if we write validation things in DTO file other wise we want write directly @min ... in parameter
+	1. add @Validated to validate the path variable at class level and use @pattern(@Min(value=1000)) in place of @valid
+	2. @valid is use at the time of other that path variable
+2. with in instance variables add annotation like
+	1. @NotNull(message="Must not be null)
+	2. @NotEmpty(message="must be not empty")
+	3. @Min(value=1000, message="Must be 4 digit")
+3. keeping message like this is hard coding so we can keep using environment variables like:
+	1. @Max(value=1000, message={"customer.value.invalue"})
+4. this validation may give output in log file but not in the postman so to get in postman we want handle the exception in RestControllerAdvice exception class.
+
+Example:
+1. request body:
+	1. it uses  Bean Validation API.
+	2. need annotation at DTO file
+	3. @Valid in API file
+public class CustomerDTO {   
+    private Integer customerId;
+	
+    @Email(message = "{customer.emailid.invalid}")
+    @NotNull(message = "{customer.emailid.absent}") 
+    private String emailId;
+	
+    @NotNull(message = "{customer.name.absent}")
+    @Pattern(regexp="[A-Za-z]+( [A-Za-z]+)*", message="{customer.name.invalid}")
+	private String name;
+    
+    @PastOrPresent(message = "customer.dob.invalid")
+	private LocalDate dateOfBirth;
+    //getter and setter
+}
+
+
+@PostMapping(value = "/customers")
+public ResponseEntity<String> addCustomer(@Valid @RequestBody CustomerDTO customerDTO) throws InfyBankException  {
+   //rest of the code
+}
+
+2. path variable and request param:
+	1. this is done only in API file
+
+@RestController
+@RequestMapping(value="/infybank")
+@Validated
+public class CustomerAPI {
+	
+	@Autowired
+	private CustomerService customerService;
+	
+	@GetMapping(value = "/customers/{customerId}")
+	public ResponseEntity<Customer> getCustomerDetails(@PathVariable @Min(value = 1, message = "Customer id should be between 1 and 100") @Max(value = 100, message = "Customer id should be between 1 and 100") Integer customerId)  throws Exception  {
+		Customer customer = customerService.getCustomer(customerId);
+		ResponseEntity<Customer> response = new ResponseEntity<Customer>(customer, HttpStatus.OK);
+		return response;
+	}
+	
+
+-------------------------------------------------------------------------------------------------------------------------------
+REST template:
+String url=""
+RestTemplate restTemplate =new RestTemplate();
+1. create - post
+	1. restTemplate.postForObject(url, CustomerDTO object, customerId)
+2. read -get
+	1. get by Id
+		1. restTemplate.getForObject(url,CustomerDTO.class,customerId)
+	2. get all customers
+		1. restTemplate.getForObject(url,List.class)
+
+3. update - put
+	1. restTemplate.put(url, customerDTO, customerId)
+4. delete - delete mapping
+	1. restTemeolate.delete(url,customerId)
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+Securing REST API:
+
+1. securing can be done by:
+	1. Authentication
+	2. Authorization
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Annotations used:
+1. @RestController
+	1. @RestController annotation is combination of @Controller and @ResponseBody annotation.
+	2. @ResponseBody annotation indicates that value returned by a method is bound to body of HTTP response.
+2. @RequestMapping(value="/infybank")
+	1. can be used at class level as well as method level
+	2. @RequestMapping(value = "/customer/{custId}", method = RequestMethod.GET)
+3. @GetMapping(value="/customers")
+4. @PostMapping(value = "/customers")
+5. @PathVariable
+6. @RequestBody : convert json to object.
+7. @RequestParam : 
+ But sometimes the request contains information as query string. A query string in part of URL and contains key-value pair. For example, consider the following URL:
+
+http://localhost:8080/infybank/customers?customerId=1234&name=Smith
+	Using @RequestParam annotation you can bind values of query string to the controller method parameters.
+	public ResponseEntity<String> getCustomer(@RequestParam Integer customerId) throws InfyBankException{
+ 		  //rest of the code 
+		}
+8. @PutMapping
+9. @DeleteMapping
+-------------------
+10. @CrossOrigin 
+11. @SuppressWarnings("deprecation")
+12. @XmlRootElement
+13. produces="application/xml"
+--------------------------
+14. @RestControllerAdvice
+15. @ExceptionHandler
+16. 
+17. 
+18. 
+
+
+
+
+
+flow of doing code:
+
+application properties
+table script
+logging aspects
+DTO
+Entity
+repo
+exception
+service
+API
+
+
+------------------------------------------------------------------------------------------------------
+
+

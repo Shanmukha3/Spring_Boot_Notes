@@ -1,0 +1,110 @@
+MYSQL in CMD:
+
+1. mysqld --console 	: to start server
+2. open new cmd and type: mysql -u root -p
+3. password is root
+
+package com.infy.validator;
+
+import java.lang.module.Configuration;
+import java.util.List;
+
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.infy.exception.MobileServiceException;
+import com.infy.model.ServiceRequest;
+
+public class Validator {
+
+	public void validate(ServiceRequest service) throws MobileServiceException, ConfigurationException {	
+		//your code goes here
+		Configurations con =new Configurations();
+		PropertiesConfiguration config = con.properties("cofiguration.properties");
+		Log Logger =LogFactory.getLog(Validator.class);
+		String str=null;
+		if(!isValidBrand(service.getBrand())) {
+			str=" Sorry! we do not provide service for this brand";
+		}else if(!isValidIssues(service.getIssues())) {
+			str=" Please provide the device only if there are issues.";
+		}else if(!isValidIMEINumber(service.getiMEINumber())) {
+			str="Sorry! we’re not able to detect the IMEI number for this device      ";
+		}else if(!isValidContactNumber(service.getContactNumber())) {
+			str="  Please provide a valid contact number";
+		}else if(!isValidCustomerName(service.getCustomerName())) {
+			str="Please provide a valid customer name";
+		}
+		if(str!=null) {
+			MobileServiceException exception = new MobileServiceException(str);
+			LogFactory.getLog(this.getClass()).error(exception.getMessage(), exception);
+			throw exception;
+		}
+		
+	}	
+	// validates the brand
+	// brand should always start with a upper case alphabet 
+	// and can be followed by one or more alphabets (lower case or upper case) 
+	public Boolean isValidBrand(String brand){
+		String s="[A-Z]{1}[a-zA-Z]+";
+		return brand.matches(s);
+	}
+	
+	
+	// validates the list of issues
+	// checks if the list is null or empty
+	public Boolean isValidIssues(List<String> issues) {
+		if(issues==null || issues.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	// validates the IMEINumber
+	// it should be a 16 digit number 
+	public Boolean isValidIMEINumber(Long iMEINumber) {
+		int c=0;
+		while (iMEINumber!=0) {
+			c+=1;
+			iMEINumber/=10;
+		}
+		if(c==16) {
+			return true;
+		}
+		return false;
+	}
+	
+	// validates the contact number
+	// should contain 10 numeric characters and should not contain 10 repetitive characters
+	public Boolean isValidContactNumber(Long contactNumber) {
+		Long num=contactNumber%10;
+		int c=0,valid=0;
+		while(contactNumber!=0) {
+			c+=1;
+			long t=contactNumber%10;
+			if(num==t) {
+				valid+=1;
+			}
+			contactNumber/=10;
+		}
+		if(c==10 && valid!=10) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	// validates the customer name
+	// should contain at least one word and each word separated by a single space should contain at least one letter.
+	// the first letter of every word should be an upper case character 
+	public Boolean isValidCustomerName(String customerName) {
+		String s="[A-Z]([a-zA-Z]*)( [A-Z][a-zA-Z])*";
+		return customerName.matches(s);
+	}
+}
+
+
+
+

@@ -1,0 +1,28 @@
+type conversion
+/ and // in java
+new line and same line printing
+variale name(different cases)
+class name
+precedence order
+range of datatypes
+switch
+round off
+premitive and non premitive
+string const pool
+heap and static
+mutable and inmutable
+
+methods(1.what is usage  2.min and max no of parametes accepting  3.type of parameters  4.return type and return value)
+substring and sub sequence
+concurrent modification 
+iterator
+
+static, local, instance variables
+static, instance methods
+
+
+
+value of default constructor for every datatype
+public, private, default, protected
+
+see all implipicit coversitons.

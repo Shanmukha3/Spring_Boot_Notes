@@ -1,0 +1,334 @@
+1. persistence layer of an application using 
+	1. Spring ORM
+	2. Spring Data
+	3. Spring JDBC (refer to appendix)
+2. Object Relational Mapping (ORM) is a technique or design pattern, which maps an object model with the relational model.
+3. ORM provides:
+	1. java classes to tables in database
+	2. instance variables as columns
+	3. each object as row.
+4. to use ORM in Java applications, Java Persistence API (JPA) specification is used.
+	1. this JPA will provide some API which help to map classes with tables.
+	2. helps in CRUD operations.
+	3. provides JPQL language to interact with database.
+5. Representations:
+	1. @Entity : It specifies that the Java class is an entity class.
+	2. @Id	   : primary key
+	3. @Table(name="customer")  : If we want to change the name of the table.
+	4. @Column(name="customer_id") : if we want to change the name of the column.
+	5. @Transient 	: It specifies the attributes which are not stored in table.
+	6. @Enumerated(EnumType.STRING) : if we want to assign the variable with enum
+	7. @Enumerated(EnumType.ORDINAL) 	: even if we insert string that respective integer value stored in DB.
+	8. @Enumerated	:
+		1. by default EnumType is set to ORDINAL,so that will be persisted not the string value of the enum.
+		2. ordinal value starts from 0.
+
+6. Why overriding equals() and hashCode() methods in entity class is considered to be a good practice?
+
+we will create multiple objects. So, you need to differentiate one object from the other. JPA ensures that there is a unique instance for each row of the database but if you want to store the objects in a Set, then you need to override equals() and hashCode() methods. 
+7. @Transactions:
+	1. it mainttain set of instruction to be one unit and does not allow to happen  of other until this ha been done
+	2. kept at method level and class level
+	3. if kept at class level then all public methods will be act as Transaction class.
+	4. can keep in both repository and service class but keeping in service class is not preferred because service class may call methods of different repository classes to perform database operations and if any of these methods throw exception
+	5. it has some default values like:
+		isolation =  DEFAULT
+		propagation = REQUIRED
+		timeout = TIMEOUT_DEFAULT
+		readOnly =false
+		rollbackFor = RuntimeException or its subclasses
+		noRollbackFor = Exception or its subclasses
+8. In SpringPhysicalNamingStrategy while naming, camel casing is replaced by underscores and all table names are generated in lower case. Since camel casing is not used so name will be by default be mapped to name column.
+9. there is only one table to store all the information about the customer and address.  - Problem of Granularity.
+10. In ORM: 
+	1. create entity class and keep required annotations
+	2. create Repositoryimpl impements repository 
+		1. annotate with @Repository
+		2. create obj for entity manager:
+			 @PersistenceContext
+     			 private EntityManager entityManager;
+		3. C - entityManager.persist(obj of entity);
+		   R - Customer customer = entityManager.find(Customer.class, customerId);  // store in entity object
+			// so create normal model class object and set value then return that obj.
+		   U - use find the extract and save that respective obj and set new value for same object.
+		   D - use find and extract obj then use entityManager.remove(customer);
+11. if another entity is there then we have to implement the same CRUD operations once again which make code more time of same code so to minimize this implementation we have Spring Data in which CRUD is already implement in this.
+12. Spring Data:
+	1. To do some opertions on customer class:
+		public CustomerRepository extends CrudRepository<Customer, Integer>{
+		} 
+	2. if multiple classes then keep methods for each in same file.
+		public CustomerRepository extends CrudRepository<Customer, Integer>{
+		}
+		public ProductRepository extends CrudRepository<Customer, Integer>{
+		}
+	3. there will be no Impl class
+	4. if we want to make CRUD operations we can do in service fileimpl which implements service file:
+		  @Autowired
+  		  CustomerRepository customerRepository;
+		C - customerRepository.save(customer);
+		R - 
+		U - 
+		D - 
+	5. Some imp methods are:
+		Iterable findAll()		-Returns all entities
+		boolean existsById(ID id)	-Return whether an entity with the given id exists or not
+		Optional findById(ID id)	-Returns the entity identified by given id.
+		T save(T entity)		-Save the given entity
+		void deleteById(ID id)		-Delete the given entity with the given id
+		Iterable saveAll(Iterable entities)	-Saves all given entities
+		void deleteAll()		-Delete all entities
+		void delete(T entity)		-Delete a given entity
+	6. above methods are based on primary key.
+	7. if we want to handle non primary key column then find() method will not word the JPA provides JPQL.s
+------------------------------------------------------------------------------------------------------------
+
+Java Persistence Query Language (JPQL): 
+1. These queries are defined using entity classes and its attributes instead of tables and columns.
+2. This makes it easy for Java developers to use it. But since database uses SQL, JPA implementations translate the JPQL query into SQL using query translator.
+3.CRUD operations:
+ 	1. Create:
+		Query query = entityManager.createQuery("SELECT c FROM Customer c");
+	2. Read :
+		1. using List getResultList() 
+		2. This method executes select queries and returns a List of results. It throws IllegalStateException if called for update and delete queries.
+	3. Update:
+		1. using method: Integer executeUpdate() :
+		2. above method executes update and delete queries.
+		3. It returns the number of rows updated or deleted. It throws IllegalStateException if called for select queries.
+	4. Delete
+		1. using Integer executeUpdate()
+	
+	Query query = entityManager.createQuery("SELECT c FROM Customer c");
+	List<Customer> customers = query.getResultList();
+
+4. Object getSingleResult() :
+	1. This method executes select query which returns a single result. 
+	2. If no result available it throws NoResultException. 
+	3. It throws NonUniqueResultException if query returns more than one results. 
+	4. IllegalStateException if called for update and delete queries.
+5. process:
+	1. having repository, repositoryImpl, Service, ServiceImpl files
+	2. with in service file impl just written methods that call methods in repoimpl
+	3. with in repo impl write main code and return data by converting entity object to model object.
+6. Where clause:
+	1. There are following two ways using which you can define these parameters:
+		1. Named Parameters
+			SELECT c FROM Customer c WHERE c.customerId = :customerId;
+		2. Positional Parameters
+			select c FROM Customer c WHERE c.customerId = ?1;
+		Before executing above query, input parameters must be set. This can be done by setParameter() method
+		Query query = entityManager.createQuery("SELECT c FROM Customer c WHERE c.customerId = ?1";
+     		query.setParmeter(1,customerId);
+     		List results = query.getResultList();
+	2. some methods with where clause:
+		and, or, between, like, in, =,!=,>,<,IS NULL, IS EMPTY, IS NOT EMPTY, SIZE.
+7. Aggregation function: min, max, sum, avg, count
+8. String Functions:
+	1. CONCAT(S1, S2) - string
+	2. LOCATE(S1,S2)  - int
+	3. SUNSTRING(S1,INT START, INT LENGTH) - int
+	4. TRIM(S1, INT START, INT LENGTH) - string
+	5. LOWER(S) - string  : Converts string s to lowercase
+	6. UPPER(S) - string  : Converts string s to uppercase
+
+-------------------------------------------------------------------------------------------------------------
+Spring Data Query Approaches:
+1. to retrieve data based on non primary key use have different approaches:
+Spring Data provides the following approaches:
+	1. Query creation based on the method name
+		1. In this we add methods in the repository which extends CrudRepository
+		2. Customer findByEmailId(String emailId);
+		3. List<Customer> findByEmailIdOrName(String emailId, String name);
+		in place or Or we can Use: Between, And,LessThanEqual, NotNull, Equals, After, Before, Like, etc...
+		4. List<Customer> findByNameOrderByDateOfBirth(String name);
+		5. List<Customer> findByNameOrderByDateOfBirthDesc(String name);
+		6. List<Customer> findFirst5ByEmailId(String emailId);
+		7. List<Customer> findTop5ByEmailId(String emailId);
+
+	2. Query creation using @Query annotation
+		1. for named parameters:
+			public interface CustomerRepository extends CrudRepository<Customer, Integer> {
+			@Query("SELECT c.name FROM Customer c WHERE c.emailId = :emailId")
+			String findNameByEmailId(@Param("emailId") String emailId); 
+			}
+		2. Positional parameter:
+			public interface CustomerRepository extends CrudRepository<Customer, Integer> {
+			@Query("SELECT c.name FROM Customer c WHERE c.emailId = ?1")
+			String findNameByEmailId(String emailId); 
+			}
+
+	3. Query creation using @NamedQuery annotation:
+		1.  The named queries are queries with a name and are defined in entity classes using @NamedQuery annotation. Using Spring Data
+		2. @Entity
+		@Table(name="customer")
+@NamedQuery(name="Customer.findNameByEmailId", query="SELECT c.name FROM Customer c WHERE c.emailId = :emailId")
+public class Customer {
+	@Id
+	private Integer customerId;
+	private String emailId;
+	private String name;
+	private LocalDate dateOfBirth;
+	@Enumerated(value=EnumType.STRING)
+	private CustomerType customerType;
+    // getter and setter methods
+}
+
+
+public interface CustomerRespository extends CrudRepository<Customer, Integer>{
+	String findNameByEmailId(@Param("emailId") String emailId); 
+}
+
+
+
+**** for optional if we want to check the error:
+	optional.orElseThrow(() -> new InfyBankException("Service.CUSTOMER_UNAVAILABLE"));
+
+-----------------------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+Primary key Generation Strategies:
+1. Identity strategy:
+	1. keep auto_Increment in sql for primary key and execute that respective code in cmd.
+	2. in Entity class make annotation as @GeneratedValue(strategy=GenerationType.IDENTITY)
+2. Table Strategy:
+	1. @GeneratedValue(strategy=GenerationType.TABLE) in entity class
+	2. here we want to create new hibernate table :
+		create table id_gen (
+		gen_key varchar(10) not null,
+		gen_value int,
+		primary key (gen_key)
+		);
+		insert into id_gen(gen_key,gen_value) values ('cust_id',1000);
+
+	3. bydefault table strategy given next ID with difference by 1 for first increment later on it will increment with 50.if we want to change then:
+	@TableGenerator(
+            name="pkgen", 
+            table="id_gen", 
+            pkColumnName="gen_key", 
+            valueColumnName="gen_value",
+            pkColumnValue="cust_id",
+            allocationSize=1
+            )
+	@GeneratedValue(name="pkgen",strategy=GenerationType.IDENTITY)
+
+3. Auto
+	1. default strategy
+	2. @GeneratedValue(strategy=GenerationType.AUTO)
+4. Sequence
+	1.  @SequenceGenerator(name="pkgen",sequenceName="customer_sequence",allocationSize=1)
+	    @GeneratedValue(generator="pkgen",strategy=GenerationType.SEQUENCE)
+	2. the primary key value is generated from a database sequence.
+
+-------------------------------------------------------------------------------------------------------------------
+
+Relation ships:
+1. one to one:
+	1. in one of the one relation table we want to make relation with 2nd table like:
+	 @OneToOne(cascade = CascadeType.ALL)
+	 @JoinColumn(name = "address_id", unique = true)
+		here cascade is used because the operaions that are done in one table should reflect in another also.
+2. Many to One:
+	here we want to keep foreignkey in first one
+3. on to many:
+	here we want to keep foreignkey in first one
+
+-----------------------------------------------------------------------------------------------------------------
+Paging: 
+
+1. rather than keeping 100's of record in one page we are supposed to keep some in first and so on ..... called as page.
+2. Every page has two fields –
+	1. page number : represents the individual subset of records
+	2. page size   : represents the number of records in a page
+3. to do this we have separate repo called : PagingAndSortingRepository
+public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Integer>{
+}
+*** To write new method:
+public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Integer>{
+	public List<Transaction> findByTransactionDateAfter(LocalDate transactionDate, Pageable pageable);
+}
+
+
+4. pageable can be made by some request:
+	1. static PageRequest.of (int page, int size)- Creates PageRequest object without any information about sorting.
+	2. static PageRequest.of (int page, int size, Sort sort)- Creates PageRequest object along with information about paging and sorting
+
+5. some methods of pagination:
+	1. Page<T> findAll(Pageable pageable): returns a Page containing entities 
+	2. List getContent(): return the content of page as list
+	3. boolean hasContent():Returns true if content is there else false
+
+Pageable firstPagewithFiveRecords = PageRequest.of(0,5);
+Page<Transaction> transactions = transactionRepository.findAll(firstPageWithFiveRecords);
+List<Transaction> entityList = transactions.getContent();
+
+6. some methods of Sorting:
+	1. Iterable<T> findAll(Sort sort)- returns all entities in sorted order.
+
+
+---------------------------------------------------------------------------------------------------------
+
+sorting:
+
+1. we want repo:
+public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Integer>{
+}
+
+2. Different Sorting:
+
+// Sorted by 'transactionDate' attribute in ascending order 
+Sort sort = Sort.by("transactionDate");
+
+// ordered by 'transactionDate' attribute in descending order 
+Sort sort = Sort.by("transactionDate").descending();
+
+// sorted by 'transactionDate' attribute in descending order and 'transactionAmount' in ascending order
+Sort sort = Sort.by("transactionDate").descending().and(Sort.by("transactionAmount"));
+
+
+3. make own method:
+
+public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Integer>{
+	public List<TransactionEntity> findByTransactionDateAfter(LocalDate transactionDate, Pageable pageable);
+}
+
+4. 
+---------------------------------------------------------------------------------------------------------------------
+Lombrak: Without creating getter, setter ,etc... separately we can directly create my simple annotations.
+1. Add dependency:
+	<dependency>
+<groupId>org.projectlombok</groupId>
+<artifactId>lombok</artifactId>
+<version>1.18.30</version>
+<scope>provided</scope>
+</dependency>
+
+2. some Annotations are:
+	1. @Getter and @Setter: Generates getter and setter methods for class fields.
+	2. @ToString: Generates a toString() method that includes all class fields.
+	3. @EqualsAndHashCode: Generates equals() and hashCode() methods based on the class fields.
+	4. @NoArgsConstructor and @AllArgsConstructor: Generates constructors with no arguments and with all arguments.
+	5. @RequiredArgsConstructor: Generates a constructor with required fields as arguments.
+	6. @Data: Combines @Getter, @Setter, @ToString, @Equals
+AndHashCode, and @RequiredArgsConstructor into a single annotation.
+	7. @Log: Generates a logger field for the class.
+3. this annotations should be kept at class level.
+--------------------------------------------------------------------------------------------------------------------
+Model Mapper:
+
+<dependency>
+      <groupId>org.modelmapper</groupId>
+      <artifactId>modelmapper</artifactId>
+      <version>2.3.5</version>
+</dependency>
+
+
+1. for converting DTO object to Entity object and viceversa can be done simply by using Model Mapper.
+2. add dependency
+3. create object for Model Mapper
+4. using that object we can do by passing two parameers:
+	1. 1st parameter - which object is there with you
+	2. 2nd parameter - to which object we want to convert
+5. object.map(1st parameter, 2nd parameter)

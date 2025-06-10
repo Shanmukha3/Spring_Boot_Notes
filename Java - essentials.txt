@@ -1,0 +1,511 @@
+Python is an interpreted, high-level, general-purpose programming language. Created by Guido van Rossum and first released in 1991.
+
+Java is a general-purpose programming language that is class-based, object-oriented, and designed to have as few implementation dependencies as possible,
+originally developed by James Gosling at Sun Microsystems and released in 1995
+
+---------------------------------------------------------------------------------------------------
+
+
+enterprise application: 
+	1. which has more actions, performs many actions. 
+	2. different layers:
+		1. client tier		: provides interface btw end user and application.
+		2. presentation tier	: handle user request and also display info to users.
+		3. business tier	: handle the business rules of the application.
+		4. persistence tier	: provides interface btw business and database.
+	3. three main areas:
+		1. client   (Browser)
+		2. client side application (client tier)(HTML, CSS, angular, react, bootstrap)
+		3. server side application
+			1. Presentation tier - Spring REST
+			2. Business tier    - Spring core, POJO(plain old java object)
+			* POJO is a Java object which has not been bounded to any framework.
+			3. Persistence tier - Spring Data JPA, hibernate
+
+	4. There are 4 groups, based on that we will decide the tier in which part of that goes to: 
+		1. user interface		- Presentation tier
+		2. service			- Business tier
+		3. validator			- Business tier
+		4. Data Access Objects (DAO)	- Persistence tier
+		5. Model
+
+Process inside java:
+1. source code
+2. complier -- ( will give output as Byte code)
+3. JVM
+	1. class loader
+	2. bytecode verifier
+	3. interpreter and Jit complier
+	4. runtime
+4. OS
+5. Hardware
+ *** Graal is new jit complier written entirely in java.
+-------------------------------------------------------------------------------------------------------------------
+Features of Java:
+1. simple
+2. architecture -Neutral
+3. object oriented
+4. secure
+5. multi threading
+6. robust
+
+** var can only be used when a variable is initialized during declaration. var cannot be used when a variable is just declared without initialization.
+   var number=11;
+Implicit type casting: 
+	1. byte - short - int - long - float - double 
+	2. char - int
+1. Class: A class is a blueprint that describes the characteristics and behaviors.
+2. Identifier: allow $ and _ but not space
+
+------------------------------------------------------------------------------------------------------------------
+
+Package:
+	syntax: package pkg_name;
+	1. should be first line inside ever class
+	2. only small letters are allowed
+	3. encapsulation - grouping similar classes ( similar means related but not as exactly same)
+	4. naming convention for package in java- reverse internet domain 
+		ex. com.google, com.infy
+	5. if we want to access a class which belongs to one package, inside another package => import the package to which the class belongs.
+	syntax: import package1.
+	6.  package is a set of logically related classes.
+-------------------------------------------------------------------------------------------------------------------
+
+Access modifiers:
+	1. public(+)    - accessible every where
+	2. private(-)   - accessible within same class
+	3. protected(#) - accessible only with in child class and parent class
+	4. default      - accessible with in same package but not across package
+
+1. default -	 triangle
+2. private -	 square
+3. public 	- circle	
+4. constructor  - C
+5. interface    - circle with I
+6. field	- middle some white part is there
+7. method	- full colored
+8. protected 	- diamond
+9. class	- circle with C
+
+* class can have only public or default access.
+-------------------------------------------------------------------------------------------------------------------
+
+String: 
+	1. built in class
+	2. it has many built-in methods in that so we can use them 
+	3. immutable 
+	4. created in 2 ways:
+		string literal - 
+		new keyword    - 
+	5. builtin methods in strings:
+		1. str1.equals(str2)			-- Boolean
+		2. str1.equalsIgnoreCase(str2)		-- Boolean
+		3. str1.toLowerCase()			-- string
+		4. str1.toUpperCase()			-- string
+		5. str1.concat(str2)			-- string
+		6. str1.compareTo(str2)                 -- int(difference in asci value of first mismatch character)									( checks in lexicographical order)
+		7. str1.length()			-- int 
+		8. str1.replace(old char, new char)	-- string
+		9. str1.isEmpty()			-- Boolean
+		10.str1.startsWith(String prifix)	-- Boolean
+		11. str1.endsWith(string suffix) 	-- Boolean
+		12. str1.substring(beg index, endindex)	-- string
+		13. str1.split(delimiter)		--String[]
+		14. st1.index(String str)		-- int
+		15. str1.trim()				-- String (remove whitespaces but not Unicode)
+		16. str1.strip()			-- String (remove whitespaces incusing Unicode)
+		17. str1.stripLeading()
+		18. str1.stripTrailing()
+
+	6. StringBuilder str2 = new StringBuilder("Welcome");
+	   str2.append(" all");
+	   System.out.println(str2);
+	7.build in methods inside Stringbulider:
+		1. str2.append(str)
+		2. str2.insert(pos, str)
+		3. str2.reverse()
+		4. str2.charAt(index)
+		5. str2.delete(start index, end)
+		6. str2.length()
+		7. str2.capacity()
+	8. new builtin methods since java 11:
+		1. str1.strip()				- String
+		2. isBlank()				- Boolean
+		3. stripLeading()			- String
+		4. stripTrailing()			- String
+	9.  text block is a multi-line string literal that will help you to eliminate the need for escape sequences.
+		String myText = "Mathew\nJohn\nJacob\n";
+			or
+		String sampleText = """
+                      SampleLine1
+                      SampleLine2
+                      SampleLine3""";
+	10. .equals will check value and == will check address.
+	11. When two literal strings are used as operands for the + operator, the resultant string will be checked in the String Literal Pool for its existence.
+	12. When using a non-literal as one or many operands for the + operator, a new string is created, without checking the String Literal Pool.
+	System.out.println(word1 == "Willow");		 true
+        System.out.println(word1 == ("Will"+"ow"));	true
+        System.out.println(word1 == ("Will"+word2));	false
+
+-----------------------------------------------------------------------------------------------------------------
+
+Wrapper:
+1. wrapper will be present for every permeative data.
+2. wrappers:
+	1. int		- Integer
+	2. float	- Float
+	3. double	- Double
+	4. long		- Long
+	5. char		- Character
+	6. bool 	- Boolean
+	7. short	- Short
+	8. byte		- Byte
+3. we will use class name to call only static methods.
+4. autoboxing:
+	int a=10;
+	Integer num1 =a;
+5.unboxing:
+	Integer num1=2;
+	int num2 =num1;
+6. In character wrapper class:
+	1. Character.compare(para1, para2):
+		when we want to compare two characters.
+	2. Character.compareTo(para1, para2):
+		when we want to compare two objects of characters.
+----------------------------------------------------------------------------------------------------------------
+Arrays:
+
+1. collection of data of same type
+2. continuous memory location
+3. index based
+4. indexed starts from 0
+5 can access the values using single name
+* length is property but not a method
+6. syntax:
+	datatype array_Name[] = new datatype[size];
+7. while creating array default it is filled with 0 for int datatype.
+8. 2D array:
+	1. datatype array Name[][] = new datatype[size][];
+	2. it is not compulsory to declare the size of columns.
+	3. internally it will store like array with in array but not as matrix format.
+	4. if size of column is not mentioned then:
+		inside main side array, each internal array can have any number of elements. 
+9. builtin functions:
+	arr1.length		- int
+10. The second print statement gives out false due to the cache managed by the JVM. The JVM returns an already created object for any values between -128 and 127, where as any Integer value outside this range is converted to a new Integer object.
+------------------------------------------------------------------------------------------------------------------
+
+Enumeration:
+
+1. named constants
+2. we want to use only capital letters inside Enum.
+3. syntax:
+	public enum Rating{
+		MEETEXPECTATION, AVERAGE, GOOD
+	}
+	In another class:
+	private Rating emprating;
+	(here we are restricting value for emprating to MEETEXPECTATION, AVERAGE, GOOD)
+	emprating =Rating.AVERAGE;
+4. built in functions:
+	Rating.values()   		- Rating[]
+	Rating.values()[0].ordinal() 	- int 
+5. ORDINAL VALUE - starting from 0( similar to index value given to constants in enum)
+6. restrict the values that a variable can take
+7. every Enum constant has got 2 values - (constant String, ordinal)
+8. We can print the value using the hierarchy of the code, (class_name.enum_name.enum_value)
+
+
+--------------------------------------------------------------------------------------------------------------------
+SonarLint:
+
+
+-------------------------------------------------------------------------------------------------------------------
+Local Data Time API
+
+1. having 3 classes:
+	1. LocalDate
+		* LocalDate date = LocalDate.now();
+		* LocalDate date1 = LocalDate.of(2021,2,23);
+		* date1.getDayOfMonth()       		//int
+		* date1.getDayOfWeek()			// string
+		* date1.getMonth()			// string
+		* date1.getMonthValue()			//int
+		* date1.getDayOfYear()
+		* plusDays(n),minusDays(n)
+		* plusYears(n),minusYears(n)
+		* plusMonths(n), minusMonths(n)
+	2. LocalTime
+		it is having similar methods which are present in localdate.
+		* time1.getHour()
+	3 LocalDateTime
+		* now, of, get methods, plus, minus
+		* It include both methods of localdate and localtime
+2. import java.time.*;
+3. default formate of date is: yyyy-mm-dd
+4. default format of time is: hh:mm:ss:zzz(full forms are: HOURS,MINUTES, seconds, nanoseconds)
+5. default format of datetime is:  yyyy-mm-ddThh:mm:ss:zzz
+6. change formate:
+	import java.time.format.*;
+	DateTimeFormatter f= DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	syso(datetime1.format(f))  // date1 will be converted to formate of f
+7. MM - months and mm- minutes in above.
+8. "c dd-MM-yyyy HH:mm:ss":
+	c    - 4 (4th day of this week)
+	ccc  - wed
+	cccc - Wednesday
+9. "dd-MM-yyyy HH:mm:ss a"
+	a- AM 
+10. TO find different of days we will use enumerator called ChronoUnit:
+	import java.time.temporal.chronoUnit;
+	ChronoUnit.Days.Between(date,date1) // will give output as not of days between that two days (date1-date)
+	ChronoUnit.Months.Between(date,date1)
+
+-------------------------------------------------------------------------------------------------------------------
+Method overriding and dynamic binding
+
+1. Inheritance between 2 classes
+2. method signature should be same in both the class.
+3. if access modifier for parent class method is x then child should have access modifier which has more visibilty than x.
+	visibility - public > protected> default>private
+4. @override helpful to check any error is present while override is happening or not by complier 
+
+
+1. dynamic binding: object of child will be stored in parent reference variable and it will happen at run time so it is called as dynamic binding.
+2. by using reference variable we can only access the overridden methods of child class.
+3. object of parent class can not be stored in parent reference variable.
+--------------------------------------------------------------------------------------------------------------------
+Regular Expression
+1. also called as regex and regex is only used to validate the string.
+2. Regular expression is combinations of 3 parts:
+	1. Literals
+	2. Metacharacters(characters that are having some special meanings)
+		1.[] - with in this only 1 character will be checked at once.
+		2.() - creation of groups
+		3. | - or
+		4.[^] - negation, anything other than what is mentioned in brackets
+		5. . - in place of . we can add any single character other than newline
+		6. \\n - used when there is () for naming groups where n is group number, n>=1 and n start from left side.
+
+
+		1. [A-z] - first letter should be capital remaining small or capital
+		2. "Ma(nn|tt)er" - checks starting with Ma and middle can be nn or tt and at last it should be er.
+		3. (aa)bb(cc)\\1\\2 similar to (aa)bb(cc)(aa)(cc)
+	3. Quantifiers:
+		1. + 	 - 1 or more times
+		2. * 	 - 0 or more times
+		3. ? 	 - 0 or 1 times
+		4. {m}   - exactly 'm' times
+		5. {m,}  - minimum is m times 
+		6. {m,n} - minimum is m and maximum is n 
+3.builtin methods:
+	String reg="[ABC]";
+	1. str1.matches(reg)		- Boolean
+4. Ex: validate customer name:
+	1. customer name must have 2 words
+	2. each word must be starting with a capital letter
+	3. each word must be separated by a space
+	4. it can contain only alphabets.
+	answers:
+		"[A-Z][A-Za-z]+ [A-Z][A-Za-z]+"
+--------------------------------------------------------------------------------------------------------------------
+object class
+
+1. every object will be having- combination of (Package name, class name, hexa decimal memory address)
+2. object class is parent of all classes
+3. 3 most imp methods in object class
+	1. toString():		- return type will be String
+		when we try to print object then at backend this toString() method will be executed so if we want to change the value while printing object then we want to override the toSting() method 
+	2. hashcode():
+		* to get the hashcode (emp1.hashcode())
+		* for two things if there hashcode is same then their values is also same but vice versa is not possible
+	3. equals():
+		* on backend it will use ==, so it will check address.
+		* on backend i will take object as one parameter and check with present object.
+		* if we want to change the output we want to override equals method
+		* if we override equals method then it is preferred to override the hashcode also but not compulsory.
+
+
+--------------------------------------------------------------------------------------------------------------------
+Final keyword
+
+1) final variable cannot be changed once it is initialized, but at starting we can assign value.(private final float=1)
+2) final class cannot be extended.(public final class classname{})
+3) final method cannot be overridden in sub classes.(public final void method())
+4) If abstract method is made final, it cannot be overridden then and abstract method has to be overridden.
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+Abstract:
+
+1) abstract keyword signifies that something is not complete
+2) an abstract class has to be made complete by extending it.
+3) It is generally used when we want to have some behavior but are not sure how exactly it should be implemented.
+4) class A is abstract and class A extends class B.
+	then all abstract methods of A should be over ride by methods of class B or else methods should be declared as abstract in class B as multi inheritance is not possible in classes.
+5) every abstract class can have any number of abstract methods and normal methods
+6) An abstract method is a method without any definition.
+7) abstract class Automobile {
+   	 public abstract void start();    
+   	 public abstract void stop();
+    }
+8)  Abstract classes enforce inheritance and overriding so we can achieve dynamic binding.
+9) abstract class can have final and static methods.
+10) abstract method cannot be static.
+11) it is not necessary for an abstract class to have abstract method.
+12) subclass of abstract class can have final methods.
+
+-----------------------------------------------------------------------------------------------------------------
+Interface:(MAP, PFSD)
+
+1) The methods declared in an interface are implicitly public and abstract,
+2) data fields are implicitly public, static and final, i.e. constants.
+	public interface PublicTransport{}
+3)  multiple inheritance is possible with interfaces
+	public class TaxiCab extends Car implements PublicTransport{}
+4) Till Java 7, interfaces were allowed to have only empty methods or methods with no implementation. But from Java 8, interfaces are allowed to have methods with implementation.
+5) Java now allows default and static keywords to declare interface methods.
+(Static methods can not be overridden )
+6) default is a keyword which when attached to an interface method, allows us to provide an implementation for that method.(if default is not there then we should use the extends class then in that class we should override that method)
+7) the work of static method is same as default method but difference is, The difference between static and default is that a method having default keyword can be overridden, whereas, one having static cannot.
+8) If a class implements multiple interfaces having the same default methods, it has to override them.
+9) From the overridden methods, the default methods of a specified interface can be called using the super keyword.
+10) it can not have constructors.
+11) Interface types:
+	1. functional interface : having only one abstract method and one or more default methods
+	2. sealed interface : A sealed interface is one that can only be implemented by specific classes.
+		sealed interface  ElectronicDevice permits Smartphone, Laptop {}
+12) To invoke the accelerate() method of Car interface Car.super.accelerate() can be added
+
+
+
+
+
+
+Note:
+1) class B extends class A,C
+	then if same method or same variable is present in A,C then it is confusion for B class to access which method or varible which creates ambiguity.
+2) so to overcome this we cam with interface.
+3) abstract methods + interface helps to overcome ambiguity that was created when multiple inheritance happen.
+4) abstract classes do not allow multiple inheritance.
+
+-------------------------------------------------------------------------------------------------------------------------
+Exception Handling:
+1) user defined exception:
+
+public class StockNotAvailableException extends Exception {
+    public StockNotAvailableException(String message){
+        super(message);
+    }
+}
+
+
+public void checkStock (int stockAvailable, int quantityRequired) throws StockNotAvailableException {
+    if(stockAvailable < quantityRequired) 
+        throw new StockNotAvailableException("The required quantity is not available.");
+}
+
+
+-----------------------------------------------------------------------------------------------------------------
+
+Collections Framework
+	* when we print object of any collection framework it will print values with in square bracket and values will be printed but not address because for collections to string methods will be defaultly kept to print values.
+	1. List - Interface
+			import java.util.ArrayList;
+			class ArrayList implements 
+		1. ArrayList list1 = new ArrayList();  // by default objects will be stored
+		2 built in functions:
+			1. list1.add(10)	// 10 integer type will be converted to object type
+				* add function will add at the end.
+			2. list1.add(1,"mango")   // at index 1st paramerter insert 2nd parameter.
+			3. list1.addall(list2)	// parameter can be collection(either set, list, queue but not map because map is not in hireracheal of collection
+			4. list1.addall(1,list2)
+			5. list1.contains("apple")  // return type booelan
+			6. list1. remove(index)
+			7. list1. clear()
+			8. list1. containsall()
+			9. list1.set(index, element)
+			10.
+			11.
+			13.
+			14.
+			15. 
+		3. for traversing we will use iterator and for homogenious we will use for loop:
+			1. iterator is a interface so we want to import that.
+			2. Iterator<String> itr=list1.Iterator(); or Iterator<String> itr=list1.Iterator<>(); or 
+				Iterator<String> itr=list1.Iterator<String>();
+				while(itr.hasnext()){
+					syso(itr.next());}
+				Iterator will traverse in only foreward direction.
+			3. listIterator will traverse in both directions:
+				ListIterator<String> iter2 =list2.listIterator();
+				while(iter.hasPrevious){
+					Syso(iter2.previous());}
+		4. Array list is hetrogenious due to that:
+			1. Disadvantage:
+				when we have intension of making string array then if by mistake if we enter float value then it will allow that so to overcome that we will use genereics.
+		5. Generics - used to restrict the type of elements that we can store in a collection
+			1. represented with in the angular brackert.
+			2. ArrayList<String> list2 = new ArrayList();
+			3. using this we can make arraylist as a homegenious.
+			4. can be used within class, method, collection
+		
+
+		1. LinkedList<Integer> list3 = new LinkedList();
+
+
+		1. sorting list using comparable:
+			1. comparable is a interface
+			2. sort using function comapareTo (also used in string which means string implements comparable)
+			3. collections.sort(list1) // working will be sort function internally will use compareto method which was present in type of elements in list1 and type of elements in list1 should implements the comparable.
+			4. 
+
+	2. Set (uses hashcode to check whether 2 elements are same or not)
+		1. Hashset : does not maintain any order
+			Set<String> set3 = new HashSet<>();
+		2. Linked Hashset : main order of insertion
+			Set<String> set3 = new LinkedSet<>();
+		3. Tree Set : maintain sorted set
+			Set<String> set3 = new TreeSet<>();
+	3. Map :
+		HashMap:
+		1. Not extending collection interface
+		2. key - value pair
+		3. duplicate values can be there but duplicate keys are not allowed
+		4. every operation is done on the key.
+		5. key and value are of any premitive type
+		6. Map<String,Integer> map1 =new Map<>(); 
+		8. syso(map1) // output will be with in curle bracket.
+		9. hashmap is unordered.
+		
+		LinkedHashMap:
+		1. order by inserting value
+		
+		TreeMap:
+		1. order by key 
+
+
+		1. builtin function:
+			1. map1.put("Shannu",4003)
+			2. map1.get("Shannu")   // 4003
+			3. 
+
+
+
+
+
+
+
+
+Abstract exercise-1
+
+
+
+
+
+
+
+\\ad.infosys.com\storage\GEC\E&R\Assessment\EXTERNAL\EVERYONE
+anjali.s08infosys.com
+9972114877

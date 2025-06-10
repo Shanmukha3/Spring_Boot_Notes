@@ -1,0 +1,274 @@
+1. 
+	tsc type.ts
+2. 
+	node type.ts
+
+
+
+routing 
+app component.html
+intership lo
+	pipe
+	service
+	component.ts
+	html
+
+
+
+run the backend:
+	npm run webservice
+
+
+testcase - npm test
+------------------------------------------------------------------------------------------------------
+Pitfalls of JavaScript:
+1. Dynamic Typing: declaring variable as let makes every time compilation for each change to check the datatype
+2. Intercepted language: it does not have any compilation so until it was run we cannot find the errors
+3. Minimal Object Oriented support
+4. Minimal IDE support
+
+-------------------------------------------------------------------------------
+Introduction:
+
+1. Typescript is a typed super set of JavaScript
+2. typescript implements ECMAScript.
+3. Features of typescript:
+	1. static typing
+	2. cross platform
+	3. Modules support
+	4. open source
+	5. oops possible
+4. typescript is case sensitive
+5. typescript doesnot support static datatype
+
+------------------------------------------------------------------------------
+Variables and Datatypes:
+
+1. var:
+	1. can be accessible outside the block
+2. Let:
+	1. with in the block
+3. const is same as let but we cannot be reassigned value. so it is unmutable but it is mutable in case of array but total array cannot be changed but using index we can change.
+const productNameArray = ['Apple','Sony','Samsung','LG'];
+productNameArray = ['Nokia','Motorolla']	not possible
+productNameArray[1]='Nokia';   			possible
+productNameArray[1]=123;			not possible
+
+
+const productNameArray:any = ['Apple','Sony','Samsung','LG'];
+productNameArray[1]=123;			possible
+
+
+4. template string:
+	1.  ${ expr }.
+	2. let message: string = "The product name is ${productName}";
+5. ` is used to print the multiple lines.
+6. datatypes: Boolean, string, any, void
+7.  If we don't mention any return type for the function, void return type will be assigned by default.
+8. to check the type of variable:
+	typeof variable_name
+
+---------------------------------------------------------------------------
+Enum:
+
+1. enum EnumName{property1,property2,property3};
+2. value of each num will start with 0.
+	1. EnumName.property1       // 0
+	2. EnumName.['property1']   // 0
+3. enum MobilePrice{Black=25000,Gold,White} ;
+console.log(MobilePrice.Gold)     // 25001
+// Initial value is set as 25000, so subsequent values will be 25001 and 25002 respectively.
+
+Note: Grade[2]  -- with in Gradenum will check whether 2 is present as value or not if present will give output as 2 otherwise will give value of index position2
+
+
+----------------------------------------------------------------------
+Array and basic array operations:
+
+1. 3 ways:
+	1. let manufactures: string[]=["apple", "Samsung"]
+	2. let manufactures: Array<string>=["apple", "Samsung"]
+	3. let manufactures: any[]=["apple", "Samsung"]
+2. manufactures. Push("Redmi")		-- will return length of updated array.
+3. manufactures[4]="Redmi"
+4. manufactures. Pop()   // last element will be removed and return that
+5. manufactures. splice(1,2)  // (starting index, how many elements, items to be added inplace of given stating index to no of elements) 
+	1. starting index is confirm
+	2. remaining are optional
+6. forEach(): 
+	1. Array.forEach()
+	2. it requires a function to be passed as a parameter.
+	3. manufacturers.forEach( function(manufacturer) {
+    		console.log(manufacturer);}
+		here manufacturers is a array, manufacturer variable holds each value of array and send to function
+	4. mobilePriceList.forEach(price=>console.log("The price is "+price));
+7. find(): 
+	1. let foundManufacturer: string = manufacturers.find(findManufacturer);
+	2. if every element doesn't satisfy then output as: undefined
+	3. let foundManufacturer1:string = manufacturers.find(_=>_.length>5);
+
+8. filter(): 
+	1. let filtered_manufacturers: string[] = manufacturers.filter(filterManufacturerByLength);
+	2. let filtered_manufacturers: string[] = manufacturers.filter(_=>_.length>5);
+
+
+9. map(): 
+	1. same as foeEach but difference is at last it will produce new array.
+	2. let manufacturers_uppercase:string[] = manufacturers.map(display_uppercase);
+	3. let uppercaseManufacturerList: string[] = manufacturers.map(_=>_.toUpperCase());
+
+10. every():
+	1. const allLengthGreaterThan3 = words.every((word) => word.length > 3);
+	2. executes until function returns false, if every this is true then final result will be true.
+	3. if array is empty then every function will return true.
+
+
+-----------------------------------------------------------------
+Functions:
+
+1. something that typescript support but JavaScript doesn't:
+	1. annotations
+	2. all types of IDE
+	3. Generics
+	4. function overloading
+	5. types
+2. decleration:
+	function functionName(param1:Datatype, param2:Datatype):returnType {
+   		 //body of the function
+	}
+3. even when function returns array, at function call it is printed as one one element but not with array brackets.
+
+4. arrow function are anonymous functions as they don't have a name.
+	1. (parameter) =>function body
+	2. var id=(productid:number):string=>
+		{return "ProductId is" +productid;}
+5. Optional parameters:
+	1. typescript function parameters should be compularsary while passing but we can make them as optional by adding ? after parameter name.
+	2. syntax: productid?:number
+	3. note: optional parameter must appear after mandatory parameter.
+
+function optionalParameter(num1: number, num2?: number, num3: number) {
+    console.log(num1, num2, num3);
+  }
+  
+  optionalParameter(1,2,3); 
+
+
+output is: 1,2,3 with Error
+
+
+6. Default parameters:
+	1. it is used to assign default value to function parameter.
+	2. if user does not provide any value or assigned value as undefined then that default value will be assigned.
+	3. syntax: productid:number=10;
+	4. note: if default parameter comes before required parameter then we need to explicitly should pass undefined.
+		getdetails(undefined,"john",100);
+
+7. Rest parameters:
+	1. to pass multiple(0 or more) parameters to single parameter.
+	2. should be last parameter of function and parameter name should start with 3 dots.
+	3. syntax: addtoCart(...productName: string[])
+
+
+
+8. we can not keep a same parameter as both default and optional.
+
+
+------------------------------------------------------------------
+
+Classes:
+
+1. 
+class Product{
+	productId:number;
+	// constructor takes a parameter productId which must be passed while creating an instance of the class
+	constructor(productId:number){ 
+		this.productId=productId;		
+	}
+    // getProductId() is a method that displays the productId of the instance created	
+	getProductId():string{
+          return "product id is "+this.productId;
+	}
+}
+
+var product:Product = new Product(1234);
+console.log(product.getProductId());
+
+2. access modifiers:
+	1. public	: can be outside the class
+	2. private	: within class
+	3. protected	: with in class and with in inheriated class.
+3. Static keyword:
+	1. static is used for variables and methods.
+	2. static property can be accessible inside static and non static methods
+
+-------------------------------------------------------------------------
+Inheritance:
+
+1.  keyword extends allows the child class to inherit the public and protected attributes and functions from the parent class.
+2.  super() must be called first in the constructor before doing anything else.
+3. abstract classes:
+	1. abstract class can have both abstract and non abstract methods.
+	2. 
+---------------------------------------------------------------------------
+Interfaces:
+
+1. to maintain consistency across multiple typescript classes we will use this
+2. Properties or methods in an interface should not have any access modifiers.
+3. Properties cannot be initialized in a Typescript interface.
+4. the members decleared inseide interface are public by default
+
+----------------------------------------------------------------------------
+
+Modules:
+
+1. used to grouping functionality under a common name.
+2. export keyword will be added before every function, class, interface, variable in which you want to export.
+3. we can alias name while importing and exporting using as keyword.
+	1. export {Utility as mainUtility};
+	2. import {Utility as mainUtility} from "./module_demo";
+4. use * while importing which will assign same alias name to all the imports.
+5. while compiling do the files together
+	tsc file1.ts file2.ts moduleUsingfile.ts
+6. Default exports:
+	1. default export used to export any one of construct like class, interface,etc..
+	2. add default along with export keyword
+		export default class{}    \\ default 
+		export class product{}	   \\ normal
+	3. we can have only one default export per module
+	4. giving name for default export is optional
+	5. while importing non-default exports name should be enclosed within curly braces.
+	6. if we update the imported varibles, it will update and will throw error saying that importing can not be updated.
+
+---------------------------------------------------------------------
+Generics:
+
+1. if same code then we can reuse. But if datatypes stored is different then we wan to rewrite for that datatype also to avoid that generics helps.
+
+	class Stack<T>{}
+
+
+	let stackNum = new Stack<number>();
+	stackNum.push(0);
+	// stack.push("1"); // insert in not possible as it is of a number type
+	let stackStr = new Stack<string>();
+	stackStr.push("abc");
+
+2. type parameters:
+	based on parameter type function type will be decided
+	function printdata<T>(data:T):T{
+		return data;
+	}
+3. inside function something is written based on datatype then every datatype should have that qulify if not function will throw error 
+	function printdata<T>(data:T):T{
+		return data.sort();
+	}
+	here sort function will not work for every datatype so error thrown.
+
+
+
+
+
+
+
+

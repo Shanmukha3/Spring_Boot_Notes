@@ -1,0 +1,39 @@
+default port of consul: 8500
+
+
+
+1. monolithic application:
+	1. Drawbacks:
+		1. difficult to scale
+		2. difficult to maintain
+		3. difficult to handle the load
+2. Micro services:
+	1. it is a architectural style of developing the application.
+	2. every entity will have separate database and separate tables
+
+
+steps to convert monolithic to Microservices:
+1. split the db to individual schema
+2. key value pair in the consul to register/discover the MS is configured in YAML format for each MS.
+3. keep common lines of all the db in config/application: 
+	username, password
+4. individual are kept inside config/____MS/data
+	schema URL
+5. YAML - yet another markup language
+6. two types of YAML:
+	1. Bootstrap.yml  - read during bootstrap phase
+	2. application.yml - read during application execution
+	3. 1st Bootstap will read then application
+	4. if both yml files have same data then properties in bootstrap will be overridden by properties in application
+
+
+
+Circuit Breaker:
+1. it will break/ wait for some time and will come to normal state like phone password entering
+	ex: 	3 times password entering
+		60 sec
+		2 times password entering
+		160 sec
+
+
+

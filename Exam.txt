@@ -1,0 +1,79 @@
+import org.junit.jupiter.api.Test;
+spring - 3.2.11
+remove dbunit
+
+
+
+
+
+
+
+1. properties file:
+	1. change password and username to root
+	2. check database
+2. SQL file:
+	1. run SQL code
+3. Entity file:
+	1. @Entity
+	2. @Table(name="tablename")
+	3. @Column(name="columnname")
+	4. @Id
+	   @GeneratedValue(strategy = GenerationType.IDENTITY)
+	5. @ManyToOne(cascade = CascadeType.ALL)
+           @JoinColumn(name="mentorId")
+	6. @OneToOne(cascade = CascadeType.ALL)
+	   @JoinColumn(name = "address_id", unique = true)
+	7.  @Column(name="projects_mentored")
+4. Repo file:
+	1. extends CrudRepository<Mentor, Integer>
+	2. add methods if mentioned like:
+		List<Mentor> findByNumberOfProjecs(Integer projects);
+	3. @Query("select c from Mentor c where c.numberOfProjectsMentored=:projects")
+	   @Param("projects") Integer projects
+5. Service file:
+	1. @Service(value="projectService")
+	   @Transactional
+	2. @Autowired
+	3. Optional<Mentor> optional=mentorRepository.findById(mentorId);
+	   Mentor obj= optional.orElseThrow(()->new InfyInternException("Service.MENTOR_NOT_FOUND"));
+	4. ModelMapper modelmapper =new ModelMapper();
+	   Project obj = modelmapper.map(project, Project.class);
+6. Utility file(Logging file):
+	1. @Component
+	   @Aspect
+	2. @AfterThrowing(pointcut ="execution(* com.infy.infyinterns.service.ProjectAllocationServiceImpl.*(..))", throwing = "exception")
+	3. LOGGER.error(exception);
+7. Utility file(ExceptionControllerAdvice):
+	1. @RestControllerAdvice
+	2. @Autowired
+	3. @ExceptionHandler(Exception.class)
+	4. public ResponseEntity<String> exceptionHandler(Exception exception) {
+        	return new ResponseEntity<> (environment.getProperty("General.EXCEPTION_MESSAGE"), 
+        	HttpStatus.INTERNAL_SERVER_ERROR);}
+	5.  @ExceptionHandler({ConstraintViolationException.class,MethodArgumentNotValidException.class})
+8. API:
+	1. Main file:
+		1. @RestController
+		   @RequestMapping("infyinterns")
+		   @Validated
+		2. @Autowired
+		3. @PostMapping("/project")
+		4. @Valid @RequestBody
+		5. @PathVariable
+		6.  @PathVariable @Min(value=1000,message ="{mentor.mentorid.invalid}")
+		    @Max(value=9999,message = "{mentor.mentorid.invalid}") Integer mentorId
+	2. DTO file:
+		1. @NotNull(message="{mentor.mentorid.absent}")
+		   @Min(value=1000,message ="{mentor.mentorid.invalid}")
+		   @Max(value=9999,message = "{mentor.mentorid.invalid}")
+		2. @NotNull(message="{project.projectname.absent}")
+		3. @Valid ( for attribute when we have one to one or many relations to be validated)
+9. Testing:
+	1. @SpringBootTest
+	2. @Mock
+	3. @InjectMocks
+	4. @Test
+	5. Mockito.when(mentorRepository.findById(obj.getMentorDTO().getMentorId())).thenReturn(Optional.empty());
+		Exception exe=Assertions.assertThrows(Exception.class, ()->projectAllocationService.allocateProject(obj));
+		Assertions.assertEquals(exe.getMessage(), "Service.MENTOR_NOT_FOUND");
+

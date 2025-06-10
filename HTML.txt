@@ -1,0 +1,205 @@
+1. <!DOCTYPE html> 
+2. <html></html>
+	1. <head></head>
+		1. <title></title>
+		2. <meta/>		: to provide the key words which helps search engine to identify the page
+		3. <link/>		: to add some programming links
+		4. <style></style>
+		5. <script></script>
+	2. <body></body>
+		
+		1. <form></form>
+		2. <table></table>
+		3. <audio src=""></audio>
+		4. <video></video>
+		5. <div></div>
+		6. <span>
+
+
+3. Types of element:
+	1. container element	: title
+	2. empty element	: br
+
+4. Types of element:
+	1. block		: h1, p, div, form
+	2. inline		: span, a, img
+
+5. Meta data: to tell some info about website to the browser by keywords or etc..
+	1. name :  Specifies a name for the metadata
+		1. application-name
+		2. author
+		3. description
+		4. generator
+		5. Keywords
+	2. http-equiv :  Provides HTTP header for information/value of content attribute
+		1. content-type
+		2. default-style
+		3. refresh
+	3. content :  Gives the value associated with http-equiv or name attribute
+		1. text
+	4. charset : Specifies character encoding for an HTML document
+		1. character_set :Helps in character encoding for the HTML file 
+
+ex: <meta name="keywords" content="tutorial,HTML">
+<meta http-equiv="refresh" content="30">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
+6. font sizes:
+	h1-32
+	h2-24
+	h3-18.72
+	h4-16
+	h5-13.28
+	h6-10.72
+	p -16
+-------------------------------------------------------------------------------
+1. <form
+	name="Name of the form" 
+	action="Link to server-side program" 
+	method="HTTP Request method" 
+	target="Where to display the response">
+        <!-- All the form elements will come here-->
+   </form>
+	name : used for accessing the form data by scripting language
+	action: after submitting where should data should go
+	method: way in which u want to submit the data
+		get : send by adding data to URL
+		Post: send as request body
+	Target: where to display the response once the form is submitted.
+	1. default method is GET.
+	2. In http basic methods are:
+		1. Get
+		2. Post
+		3. Put
+		4. Delete
+		5. Trace
+		6. Head
+		7. Options
+		8. Connect
+
+2. <input type="input-type" value="element-value"/>
+	1. Value attribute is used to specify the element's value that will be sent to the server program.
+3. types can be:
+	1. text
+	2. password
+	3. radio
+	4. checkbox
+	5. button
+	6. submit
+	7. reset
+4. newly added types in HTML5 is:
+	1. date
+	2. email
+	3. number
+	4. URL
+	5. file
+	6. file
+	7. color
+	8. range
+	note: 
+		1.for email, url,etc..on backend it was matched to pattern(validated)
+		2. based on type we mention, type of keyboard also will change.
+5. usage of using label tag in form:
+	if we click on text box it allows to enter letters but if same thing want to happen when u click on that respective heading then use label.
+ <label for="emailId">Email ID</label>
+ <br>
+ <input type="email" name="emailId" id="emailId">
+	note:  The value of for attribute should be the same as the value of the id attribute in the input element.
+
+6. Attributes of forms:
+	1. required-	Value required for form submission.
+	2. value-	Specifies default value of input element.
+	3. type-	Identifies type of input element.
+	4. name- 	Name of input element used for form submission.
+	5. size-	Identifies the width of input text that the user can see.
+	6. autofocus-	Focuses on a particular form element automatically.
+	7. maxlength-	Identifies the maximum length of input value.
+	8. minlength-	Identifies the minimum length of input value.
+	9. pattern-	Specifies a pattern (regular expression) for entering input text. 
+	10. placeholder-	Displays a text (hint) within an input control for the user.
+	11. steps-	Specifies the legal number of intervals.
+	12. formnovalidate-	Skips validations for forms upon form submission, used with submit button. 
+	novalidate-	skip validation for fields in form
+	13. readonly-	Prevents user from modifying the value, value will passed on submit
+	14. disabled-	Prevents from modifying the value, value is not sent on submit
+	15. multiple-	 allows to enter/select more than one value
+
+7. Elements of form:
+	1. select : used to create dropdown
+		<label for="dropdown_list">Dropdown</label>
+		<select id="dropdown_list">
+   			<option>option 1</option>
+   			<option>option 2</option>
+		</select>
+	2. datalist: similar to select gives you the dropdown but the difference is datalist enables you to search by typing but select is done by directly clicking on options
+		1. When using the datalist, we need to have an attribute "list" for the input field; This list attribute should point to the id of the datalist element.
+		2. <label for="stream">Choose your stream</label>
+		   <input list="streams" name="stream" id="stream" />
+		   <datalist id="streams">
+ 			   <option value="Java">
+   	 		    <option value="UI">
+			    <option value="BigData">
+    			    <option value="IMS">
+    			    <option value="AI">
+		   </datalist>
+		3. <datalist> tag is used to provide an "autocomplete" feature.
+	3. Textarea:
+		1. <label for="textarea">Textarea</label>
+			<textarea id="textarea" rows="2" cols="15">
+			</textarea>
+	4. Button:
+		<button type="submit"> Submit </button>
+		1. A button can have 3 type values: reset, submit and button.
+	5. div:
+		1. A <div> tag defines a division or a section in an HTML document. 
+	6. Spam group inline element in a document
+
+--------------------------------------------------------------------------------
+Table:
+
+    <table border="1">
+        <thead>
+            <tr> <th>Employee Id</th> <th>Employee Name</th> </tr>
+        </thead>
+        <tbody>
+            <tr> <td>1001</td> <td>Jack</td> </tr>
+            <tr> <td>1002</td> <td>John</td> </tr>
+        </tbody>
+    </table>
+
+1. colspan used for combining 2 columns
+2. row span used for combining 2 rows.
+
+--------------------------------------------------------------------------------
+Anchor:
+
+1. <a href="url" target="value">Text</a>
+	1. An unvisited link is underlined and blue
+	2. A visited link is underlined and purple
+	3. An active link is underlined and red
+2. attributes of anchor tag:
+	 we want keep in the target
+	1. _blank : open in new window
+	2. _self  : open in same window
+	3. _parent: open in the parent of the current window
+	4. _top   : open in the top most level window of the current window
+3. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

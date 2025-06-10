@@ -1,0 +1,96 @@
+*JDK - tools,JRE and JRE - JVM, libraries and JVM - memory, JIT(just in time use to increase efficiency)
+
+Identifier:
+	1. dollar, _, alphabets, numbers
+	2. should not start with number
+precedence order:
+	1. brackets
+	2. uniary
+	3. multiplictive
+	4. additive
+	5. relational
+	6. logical
+	7. terniary
+	8. assignment
+BUMAReLaTionAl
+
+** 97 integer value to a ====> (char)variable
+** a letter to get asci 97 ===>(int) variable
+**
+1. next(): is used to read word(it will stop until space and new line is encountered)
+2. nextLine(): used to read sentence
+3. Integer.valueOf(num) : used to convert string to integer asci values
+	int price = Integer.parseInt(productPrice); used to convert string to integer 
+
+4. String.valueOf(num) : used to convert integer to string
+	Integer.toString(price);
+5. str.length(): finding length of string
+6. to get type of variable:
+    for premitive data:  (((Object)num).getClass())
+    for normal data: s.getClass()
+7. reverse: use for loop, length function, charAt()
+8. s.substring(0,4): extracting part of substring 
+9. //implicate conversion and explicates(know about them and check whether vm support which one)
+10. java is not pure object oriented programming because of premitive datatype.(i.e..int num; int.method can not be done) so we will use wrapper for int - Integer, float-Float, double- Double
+11. object will be stored in heap area
+12. string can be created by 2 methods (by direct declearation and new method)
+	direct decleareation create space only in SCP(string const pool)
+	new keyword create in both SCP and heap.
+	note: in SCP if that value is already present it doesn't create but not in case of heap(it will create space with same value)
+13. string is unmutable but can make mutable by using string buffer class,string builder
+	StringBuilder sb=new StringBuilder("hello world"); //making mutable string
+	sb.replace(0,5,"hi")
+14. == used to check address of two variables and .equals check value in that variable.
+15. s1.concat(s2): make new string
+16. s1.equals(s2):check with case sensitivity also
+17. s1.equalsIgnoreCase(s2): check without casesensitivity
+18. s1.charAt(2): 
+19. s1.toUpperCase(): 
+20. s1.toLowerCase():
+21. s1.contains("shanu"): to check whether substring is present in it or not.
+22. s1.replace("a","z"): replace every a in s1 string
+23. s.replaceFirst("a","p"): replace only first occurring "p"
+24. StringBuilder sb=new StringBuilder(s);
+	System.out.println(sb.replace(0,2,"jjjjjjjjjj"));   mutable string replace can take 3 parameters(start, end, string)
+25. character methods:
+	Character.toUpperCase():   return char
+	Character.toLowerCase():   return char
+	Character.isLetter():   return Boolean 
+	Character.isDigit():   return Boolean 
+	Character.isWhitespace():   return Boolean 
+	Character.isUpperCase():   return Boolean 
+	Character.isLowerCase():   return Boolean 
+	Character.isLetterOrDigit
+26. Math methods:
+	Math.abs(x):	return float value
+	Math.sqrt(x):	return float 
+	Math.min(a,b)
+	Math.max(a,b)
+	Math.ceil(a,b):	return float
+	Math.floor(x):	return float
+	Math.pow(a,b):	return float
+	Math.round(x):	return float, it will give 3 for >=2.5 and 2 for <2.5
+	Math.random():	return a random double value between 0.0 to 1.0
+
+27. In Java, Math.PI is a static property of the Math class. 
+28. double[] arr =new double[10];// default value without initilization is 0.0 as it is double
+29. char[] charArray = inputString.toCharArray():	convert to char array
+30. String[] resultArray = originalString.split(delimiter);       splitting string to substring
+31. Arrays.sort(scores);  	sorting in ascending order
+32. for each loop in java array:
+	for(int a: arr){
+		System.out.println(a);
+	}
+33. local variable:	scope is with in that method and can not access outside because while executing it will be in stack but after last curle bracket execution completed the methods and variables are removed from stack so there is not there in that stack so we can not access the varibles.
+34. local variables, methods static methods and static variables  are all stored in stack.
+35. while passing premitive data it is passed as pass by value but for array it is like reference.
+36.Primitive types and immutable class objects like String, Java strictly follow pass-by-value. 
+37. For non-primitive and mutable data types, Java follows pass-by-reference 
+
+38.
+39. 
+40.underline in class diagram means static 
+box - private
+circle -public
+diamond - protected
+triangle - default varibale

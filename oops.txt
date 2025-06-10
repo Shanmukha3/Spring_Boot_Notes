@@ -1,0 +1,109 @@
+1. modules (classes) will have state(represented by attributes/variables) and functionality (represented by behavior/methods).
+2. OOP has many advantages. Some of them are listed below:
+
+	Modularity: OOP enables programmers to create modules that do not need to be changed when an object is added.
+
+	Scalability: OOP makes development and maintenance easier.
+
+	Data hiding: OOP provides hiding and securing data.
+
+	Real life scenario: OOP provides ability to simulate real world event more effectively and efficiently.
+3. Refernce variales:	holding objects
+4. object:	count the no of new Classname() then that is count of objects;
+5. (not Reference variable) object means that will call constructor and initialize instance variable in heap, static, instance variables will be stored in heap.
+6. if any constructor is expilictily defined then default constructor will never be called.
+7. String name1="qwe" and String name2 ="qwe" here both name equal so same address will be referred to name1 and name2 so name1==name2.(name1 and 2 will be created in SCP)
+8. String name3= new String("qwe") and String name4 = new String ("qwe") even there is same name both addresses are equal because objects wiil be created in Heap location so 2 objects will be created so two addresses then name1!=name2.
+9.In SCP does not allow duplicate values but Heap allows it
+10. Array datatype will be same as what it is storing element dataset, so if you store the object then array datatype will be the object class name.
+11.this.static variable or obj3.static variable is not recommended but doesn't through error(when this is used complier automatically make instace variable for static varibake and give you value)
+12.inside static methods we cannot access instance variables but viceverca is possible.
+13.for updating private static variable we want to use static getter and setter and if we make this getter and setter as static then this.static variabele  will trough error as inside static method cannot access the instance variable.
+14.Trainee p1=new Trainee(23,"ere");
+	p1=null;
+	then p1.ID will give you nullvalue Exception.
+15.If a class doesn't explicitly define a constructor, Java provides a default no-argument constructor. However, if you define at least one constructor, the default constructor is no longer available. In such cases, if you don't invoke any constructor explicitly, you'll get a compilation error.
+16. static variable can be initilized by 2 ways.direct initilization and static block (static block will be initilized at 1st time of loading of class.)
+17 static block is used to initilize only static varibles.
+18. execution: main class initilize -- if staticblock present in that, that will be initliized -- next class -- static block in next class
+19.**Aggreation(Has a): Object of one class is used as instance variable of another class.
+	Address addObj= new Address(28,"padamatipalem","AP")
+	Trainee traineeObj=new Trainee("shannu",35000,addObj)
+20. Association(uses a) : Object of one class is used as local variable of another class.
+21. Inheritance: child ---> parent (diagram)
+	child can access in parent but viceversa nit possible
+22. when you create parameterless construcor of both child and parent, when you create obj for child then flow of execution:
+	main method -- object creation-- child class --- goto parent class --- execute parameterless constructor of parent -- come back to child class -- execute parameterless constructor of child.( flowonly for paremater less).
+23.flow for child parameter constructor & parent parameterless &child obect with parameter :
+	parameterless parent -- statements inside that -- parameter child -- statements inside that.
+24.flow for parent parameter constructor & child parameterless &child obect with parameter :
+	if you are creating parameterless in child then we must and should also have parameterless in parent otherwise it will through error;
+
+25. super(): use to call parent class constructor expilctall for child class constructor. (constructor can be parameeter less or parameter)
+	for parameterless it will be called automatically even if we dont call also no problem.
+  	super key must be first line of constructor.
+26. Types of polymorphism:
+	runtime time - dynamic polyoriphism (method overriding)
+	compile time - static poly(method overloading)
+27.overloading(static polymorphism) means method signature should be different in :
+	1. no of parameters
+	2. order of parameters
+	3. data types of parameters
+28.with parent and child class only we can go with overriding
+29.overriding means same signature.
+30.private methods cannot be overridden.
+****parent refernce can hold child object;
+31. parent parObj = new parent();
+	parobj.pabill() -----> parent class paybill() will be called
+    child childObj = new child();
+	childobj.pabill() -----> child class paybill() will be called
+    parent parObj =new child();
+	parObj.pabill() -----> child class paybill() will be called (preference will be given to object but not for refernce class)
+  **** for instance variable accessing it will be done based on the refernce variable.(see quiz question-3) 
+  ****only we can call parent overridden method using parent refernce created by child object.
+  explaination of above:
+	parent having methods as M1(int a, int b) and child having methods as M1(int a, int b) and M2(int a):
+then parent parObj =new child();
+	parObj.M1(1,2) ----- possible 
+	parObj.M2(1) ------- not possible because M2 is not overridden method.
+
+32. advantage of keeping @override keeping in child class:
+	if same method was not present in parent class then it will show error which makes user to know method is not overriding and if you didn't keep then complier will not through error even if u does not override also.
+
+33.Only the overridden methods can be called using the parent class reference. Any new method created in the child class will not be accessible using the parent class reference. 
+
+The version of the method that will be called is determined by the object, and this decision is taken at runtime. This is called Dynamic binding.
+
+Static methods are not overridden. They will be called based on the type of reference used.
+
+34.multiple annotation can be possible for single method.
+
+
+35.== will compare value and address where as .equals compare only with value.(ie.. for string == will check value and .equlas will check value because we create by decleration)
+   for objects both will check objects.(because internally .equals is coded as == only ) but we can change the property by overriding the equal method.
+36.str1="hello" and str2="hello" here for both same localition in SCP (as it doesn't allow dublicate)
+37. but while creating using new keyword for same word its location address will be different.
+38. two same objects will have same hash code but if two have same hashcode then we cannot say that both are as same.
+39.final to fix value:
+	final value : can not change that value( if you not assign value at decleration of final variable(commonly called as blank final variable )at that time we have only one change to initialize through constructor)
+	final method : can not override
+	final class : can not make that class as a parent.
+40.Wrapper classes help in representing the primitive data types as an object. They belong to the java.lang package as part of the Java library.
+41.default exception class catch should be kept at the last of all the exceptions.
+42.every tr block should have atleast 1 catch block.
+43.for one try there can be atmost 1 finally block.(finally can be kept if and only if you keep the tr block)
+44.irrespective of whether handleing error or not, finally block will be executed once.
+45. throw: propogating the error message 
+	throw new <exceptionclass>("Message passed")
+	e.getMessage() ---> will print message passed
+46. throws: when we hand a method and we didn't handle the exception then we will pass the method signature along with the exception warning (i.e which tells that if any error is occurred then it is our responsibility to handle the exception in main method)
+  public method cooking() throws Exception{}
+47. There are two different types of exceptions in Java:
+	Checked Exception   :All exceptions other than runtime exceptions are known as Checked Exceptions as the compiler checks them during compilation to see whether the programmer has handled them or not.if not handle then either we should handle of should allow the proporagation.
+ E.g. - SQLException, IOException, etc. are Checked Exceptions
+ 
+	Unchecked Exception :Unchecked exceptions are runtime exceptions. These exceptions are not checked at compile-time. So, the compiler does not check whether the programmer has handled them or not. In this case, the programmers are not forced to handle or declare their propagation.
+
+E.g. - ArithmeticException, NullPointerException, ArrayIndexOutOfBoundsException, etc. are Unchecked Exceptions
+
+48.

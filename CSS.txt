@@ -1,0 +1,191 @@
+Introduction to CSS
+CSS syntax and properties
+CSS selectors and types
+Precedence of CSS selectors
+Adding CSS to html
+units in CSS
+CSS box model
+CSS Positioning
+CSS RWD and media Queries
+
+
+ol>li*2>li> enter
+Alt + shift + downarrow - to get same thing in above one
+ctrl + D  - to select all such words
+---------------------------------------------------------------------------------------------
+
+1. CSS is a decelerative language which means we don't bother about what happen on backend just we will use for application.
+2. properties:
+	1. color  		: diff colors
+	2. text-align		: left, right, center, justify
+	3. text-decoration	: none, underline, overline, line-through, blink
+	4. font-size		: px or em value
+	5. font-style		: normal, Italic, oblique, initial, inherit
+	6. background-color	: give color, transparent
+	7. border		: 5px solid red
+	8. border-radius	: 5px
+	9. overflow		: scroll, hidden, auto, visible
+	10. display		: none, block, inline-block
+	11. opacity		: number(means 0.5)
+	12. background-image	: url()
+	13. text-transform	: uppercase, lowercase
+
+3. CSS selectors: Selector is a pattern that can select multiple HTML elements using the HTML element attributes like class, id, etc...
+	1. Tag_Name{property: value} 
+	2. types of selectors:
+		1. Universal selector - *
+		2. id   - #
+		3. class - .
+		4. type - directly use the attribute.
+		5. attribute selector: 
+			1. p[id] - select all p with any id
+			2. [attribute=keyword]-
+				1. p[id="pId"] - select all p with same id
+				2. [attribute *= keyword]  : select which is having keyword any where in that attribute.
+				3. [attribute^=keyword]  : select which is having keyword at beginning.
+				4. [attribute$=keyword]  : select which is having keyword at end of value.
+				attribute can be anything like id, href,name etc.
+				[ name^= "happy"] {/*Styling properties*/} selects <div name="happyFace">Hello World</div>
+	3. Combinators: he selectors formed by combining multiple selectors and establishing a relationship between the selectors.
+		1. Selector1 (>, +, ~, (space)) Selector2
+		2. The different types of combinators are:
+			1. Descendant Combinator  :
+				1.Selector1 Selector2{}
+				2. #firstDiv .p1{}
+			2. Child Combinator
+				1. Selector1 > Selector2 {}
+				2. ol>li{} - just child of ol ki
+			3. Adjacent Sibling Combinator
+				1. Selector1 + Selector2 {}s
+				2. h4+P{}
+			4. General Sibling Combinator
+				1. Selector1 ~ Selector2 {}
+				2. h4 ~ p {}
+				3.  selects all elements that match 2nd selector
+		
+4. Precedence of Selectors:
+	1. id > class > Type
+5. types of CSS adding:
+	1. inline
+		1. <element style="property1:value1;property2:value2">Content</element>
+		2. used expicially when repeted will not heppaen time.
+		3. Page loading time increases
+		4. maintenance will be difficult
+	2. Embedded(internal)
+	3. External
+		1. <link rel="stylesheet" href="Path of the CSS file">
+6. inheritance styling:
+	1. Inheritance is a mechanism where the styling properties of the parent will be passed down to the children.
+	2.  styling was applied for the body tag. But the color was applied for every element inside the body tag. This phenomenon is called Inheritance.
+	3. note:  if you have applied a background image for the body tag, will all the child elements of the body tag have the background image?
+
+	The answer is No!
+
+7. Pseudo-classes:
+	1. CSS pseudo-class can be described as a keyword that is added to a selector which defines a special state of the selected elements.
+	2. a:hover{
+        color:green;
+   	 }
+	3. styling links:
+		1. :link	It is used to style links which are not visited.
+		2. :visited	Styles the state of link when link is visited atleast once.
+		3. :hover	Styles the state of the link when mouse is placed over the link.
+		4. :active	Styles the state of the link, when you can click on the link.
+
+	4. styling input field:
+		1. :focus	Styles the state of element that is currently targeted or activated by mouse.
+		2. :enabled	Styles the state of element that is enabled and associated with input field.
+		3. :required	Styles the input element with required attribute.
+		4. :checked	Styles the state of element when it is selected.
+
+8. Pseudo Elements:
+A CSS pseudo-element can be taken as a keyword that is added to a selector which lets you to design a specific part of the selected elements. 
+	1. input::placeholder{ 
+            color:red; 
+            font-style:italic; 
+            font-family: 'Courier New', Courier, monospace; 
+        }  
+	above meaning is for placeholder of input field add the style.
+	2. different pseudo-elements  
+	::first-line	-Used to style first line of the text.
+	::first-letter	Styles the first letter of text. Applied only to block level elements.
+	::before	Used to insert content or style before the content of element.
+	::after	Used to insert content or style after the content of element.
+	::selection	Used to style the portion of element that is selected by the user.
+	3. Note: The double colon represents the pseudo-elements, while single colon represents pseudo-classes 
+
+9. Units in CSS are:
+	1. Absolute Units - cm, In, Mm, Px
+	2. Relative Units - %, em, rem, vw and vh
+		1. percent unit is relative to the viewport size. 
+		2. if inner child keept as width of 700px and outer parent is given with width=50% then that 50% will be applied on 700px(i.e..350px)
+		3. percentage units consider padding and margins. 
+		4. vw and vh will not consider about padding and margins.
+		5. if you keep em then: font-size of the content = font-size in the parent element * font-size in the child class
+			if font-size is 2em then:
+			font-size = 2*parent font-size = 2* 15px = 30px
+		6. if you keep rem then: font-size of the content = font-size in the parent element * font-size in the child class
+			if font-size is 2rem then:
+			font-size = 2*root font-size (root font-size means overall 
+
+---------------------------------------------------------------------------		
+CSS Box Model:
+
+1. properties of Box model:
+	1. margins
+	2. borders
+	3. padding
+	4. actual content
+	from outer side to inner:
+		Margin-- Border -- Padding -- Content
+
+	1. Multiple values to margins and padding:
+		top, right, bottom, left
+	2. we provide 2 values for margin:
+		1st value: top-bottom
+		2nd value: right-left
+	3. we provide 3 values for padding:
+		1st value: top
+		2nd value: right-left
+		3rd value: bottom
+	4. width can be calculated as:
+		(width + padding on left + padding at right + margin on left + margin at right + border on left + border at right)
+
+----------------------------------------------------------------------------
+CSS positioning:
+movement of position:
+	top, left, right, down
+
+position property:
+	1. static
+		1. bydefault positioned as static
+		2. will scroll along with scroller
+		3. here top, left, right, down will not work
+	2. Absolute 
+		1. will shift from its position using movement of position with respect to its parent position.
+		2. will not scroll along with scroller
+	3. Relative :
+		1. will shift from its position using movement of position
+		2. will scroll along with scroller
+	4. Fixed :
+		1. it will not scroll along with scrolller
+		2. fixed at that postion
+	5. Sticky
+		1. fixed at its postion
+		2. scroll upto its element came that that that respective will stop scrolling remaining back side will scrole
+
+----------------------------------------------------------------------------
+FlexBox:
+Flexbox is one of the most widely used CSS properties that help us to align elements in given available space.
+1. flex supports both expansion and shrinking.
+
+
+
+
+
+
+
+
+
+
+

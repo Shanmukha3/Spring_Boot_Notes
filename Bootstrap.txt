@@ -1,0 +1,185 @@
+Need of Bootstrap
+Bootstrap features
+Getting started
+Container Classes
+grid system
+Typography
+Tables
+Images
+Cards
+UI Components and Types
+Navigation bar
+Form group
+Form layouts
+
+---------------------------------------------------------------------------------------------------
+
+1. Bootstrap5 features:
+	1. uses Grid System
+	2. Most popular CSS framework
+	3. Well documented
+2. Bootstrap4 VS Bootstrap 5:
+	1. More colors are added to Bootstrap 5
+	2. floating labels(like place holder) in Bootstrap 5
+	3. Doesn't support the internet Explorer browser
+	4. it supports RTL(Right to Left) typography also
+	5. can load placeholder easily
+	6. Customization 
+	7. SVG(means notifications symbols) icons
+3. Container Classes:
+	1. .container : fixed responsive
+	2. .container-fluid : fluid responsive(entire width of viewport)
+	<div class="container/container-fluid">msg</div>
+4. Grid system:
+	1. each row will be having 12 columns.
+	2. <div class="row"><div>
+	3. <div class="col-lg-6"></div>
+	4. <div class="col-lg offset-2"></div>
+
+	1. lg  (for large devices with screen width >= 1200px)
+	2. md (for medium devices with screen width < 1200px and >=992px)
+	3. sm (for small devices with screen width < 992px and >=768px)
+	4. xs (for extra small devices with screen width < 768px)
+	
+	1. overflow: when no of grids exceed 12 then that column will be sent to new column
+	2. offset: if we want to give some space between two columns then we can use this
+
+	1. If multiple images to be fit based on screen:
+		 <div class="row">
+    			<div class="col-<sq1>-<n> col-<sq2>-<m>"> … </div>
+  		</div>
+
+5. Typography:
+	1. size class:
+		1. size order will be:
+		 	Display-1 > Display-2 > Display-3> Display-4 > Display-5 > Display-6
+		2. Display-7 will be same size as Display-6 but 7 will be bolded.
+	2. alignments:
+		1. .text-center
+		2. .text-start
+		3. .text-end
+	3. color class:
+		1. .text-primary	-blue
+		2. .text-success	-green
+		3. .text-info		-light blue
+		4. .text-warning	-yellow
+		5. .text-danger		- red
+		6. .text-muted		- grey
+	4. transformation:
+		1. text-capitalize  - 1st letter capital
+		2. text-uppercase
+		3. text-lowercase
+
+6. Table:
+	1. .table	- horizontal dividers and small cell padding ( 8px ). 
+	2. .table table-bordered   - to give border
+	3. .table table-sm       - To make the table more compact
+	4. .table table-hover    -  enables the hover state of the table rows. 
+	5. .table-responsive	 - For making a table responsive in nature we should put the table inside a <div> tag which has the Bootstrap class .table-responsive.
+		<div class="table-responsive">
+	6. <table class="table table-striped">   - to provide alternative coloring like zebra crossing
+7. Images:
+	1. class="rounded"	:  add rounded corners to the image
+	2. class="rounded-circle": give the image a circular shape
+	3. class="img-thumbnail" : give thumbnail appearance to an image
+	4. class="img-fluid"   :  can automatically adjust its size with respect to the screen size.
+		In bootstrap it is having as  max-width: 100%; height: auto;
+8. cards:
+	 card in Bootstrap 5 is a bordered box with some padding around its content. 
+	1. .card and .card-body	: to create basic content or page
+		<div class="card">
+		<div class="card-body">Basic card</div>
+		</div>
+	2. .card-header		: 
+	3. .card-body		: 
+	4. .card-footer		: 
+		<div class="card">
+        		<div class="card-header">Header</div>
+        		<div class="card-body">Basic card</div>
+        		<div class="card-footer">Footer</div>
+		</div>
+	5. .card-img-top, .card-img-bottom, .card-img-overlay : to keep images with respect to content in img tag
+	6. background color to our cards:
+		<div class="col-4">
+            		<div class="card"><div class="card-body">Basic card</div></div>				white
+            		<div class="card bg-primary"><div class="card-body">Primary card</div></div>		dark blue	
+            		<div class="card bg-success"><div class="card-body">Success card</div></div>		green
+            		<div class="card bg-info"><div class="card-body">Info card</div></div>			light blue
+            		<div class="card bg-warning"><div class="card-body">Warning card</div></div>		yellow
+            		<div class="card bg-danger"><div class="card-body">Danger card</div></div>		red
+            		<div class="card bg-secondary"><div class="card-body">Secondary card</div></div>	grey
+            		<div class="card bg-dark text-white"><div class="card-body">Dark card</div></div>	black
+            		<div class="card bg-light"><div class="card-body">Light card</div></div>		white
+            	</div>
+	7. add a title to our card by using the .card-title
+		<h4 class="card-title">Card title</h4>
+                <p>The contents of the card here</p>
+outer: .card, .card bg-primary
+inner: body, footer, header
+deep inner: card-title(for h1,etc...)
+
+9. forms:
+	1. <input type="text" class="form-control">
+		1. will adjust the form to the screen
+		2. used with <input>, <textarea>, <select>
+		3. Generally for <input type="button/reset/submit">, .form-control is not used
+
+	2. styling radio and checkbox:
+		1. vertical alignment:  .form-check, form-check-label, form-check-input
+		<div class="form-check">
+			<label class="form-check-label">
+			<input class="form-check-input" type="radio" name="term">I accept</label>
+			</div>
+			<div class="form-check">
+			<label class="form-check-label">
+			<input class="form-check-input" type="radio" name="term">I Decline</label>
+			</div>
+
+		2. horizontal alignment: .form-check form-check-inline, form-check-label, form-check-input
+
+	3. Button Styling:
+		1. <button type="button" class="btn">Standard Button</button>	- white
+		<button type="button" class="btn btn-default">Button-Default</button>	- white
+		<button type="button" class="btn btn-primary">Button-Primary</button>	- medium blue
+		<button type="button" class="btn btn-success">Button-Success</button>	- dark green
+		<button type="button" class="btn btn-info">Button-Info</button>		- light blue
+		<button type="button" class="btn btn-warning">Button-Warning</button>	- yellow
+		<button type="button" class="btn btn-danger">Button-Danger</button>	- red
+		<button type="button" class="btn btn-link">Button as Link</button>	-blue link
+
+	4. Button sizes:
+		1. class="btn btn-lg"	- large
+		2.  class="btn"		- medium
+		3. class="btn btn-sm"	- small
+
+	5. Badges:
+		1. Badges are indicators for numerical values and are generally used to show how many items are there.
+		2. <a href="#">Products <span class="badge">1000</span>  </a>
+
+
+	1. form-group, form-label, form-control
+	2. form-floating mb-3 --- to make the label and field as wrapping and when touch on field then the label will go to left top corner.
+	3. vertical form:
+		<form>
+	3. horizontal::
+		<form class="row row-cols-lg-auto g-3 align-items-center">
+
+10. Navigation:
+	1. navbar navbar-expand-sm navbar-default, navbar-nav, nav-item, nav-link
+	2. for small scrrens:
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    		<a class="navbar-brand" href="#">Brand Name</a>
+    		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+      		 data-bs-target="#nav-collapse" aria-controls="nav-collapse" aria-expanded="false" 
+       		aria-label="Toggle navigation">
+        	<span class="navbar-toggler-icon"></span>
+    		</button>
+    		<div>....<div>
+		</nav>
+	3. navbar-nav ms-auto - used to align to the right of navigation: 
+	<ul class="navbar-nav ms-auto">
+    	<li class="nav-item"> <a class="nav-link" href="#">Profile</a></li>
+        <li class="nav-item"> <a class="nav-link" href="#">Logout</a></li>
+</ul>
+
+11. btn-block

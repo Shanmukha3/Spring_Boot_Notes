@@ -1,0 +1,388 @@
+Lambdas:
+
+1) anonymous function
+2)public int calculate(int num1, int num2){
+	return num1+num2
+   }
+   public int calculate(int num1, int num2){
+	return num1-num2
+   }
+   public int calculate(int num1, int num2){
+	return num1*num2
+   }
+
+	this above 3 methods is not possible in single class withe by overloading and over riding(possible only with different class), but this can be possible by using lambda expression.
+	@FunctionalInterface
+	interface operation{
+		int calculate(int num1,int num2){};
+	}
+	public class tester{
+		psvm(String args[]){
+			operation adder=(int num1,int num2)->{return num1+num2};
+			Syso(adder.calculate(1,2));
+		}
+	}
+Note: if we use public class tester implements operation then we should implement that method in our tester class.so in simply we create object for that class and pass lambda function.
+
+3) operation adder=(int num1,int num2) where int is not required, if method in operation have same datatype for all paramenters.
+4)  {return num1+num2} is not required for single line statements inside.
+5)  if single statement then no need of {}.
+	(int num1,int num2)->return num1+num2
+6) different lambda functions based on no of arguments:
+	1) zero argument
+		()->Syso("Hekla")
+	2) 1 argument
+		(num1)->num1*num1
+	3) multiple argument
+		(num1, num2)-> num1+num2
+7)Different Functional Interfaces:
+	1) user defined functional interface
+	2)  build in functional interface
+		1) function:
+			1. takes a  input parameter and returns a single value/object
+			2. Function<Long, Long> addNum = (value) -> value + 10;
+				addNum.apply(6)
+		2) predicate
+			1. takes a single value/object as a parameter, and returns true or false.
+			2. Predicate<Integer> checkAge = (age) -> age > 18;
+				checkAge.test(19)
+		3) supplier
+			1. function that produces a value/an object without taking any input parameter
+		4) consumer
+			1. that consumes or processes a value/an object without returning anything.
+			2. consumer.accept(i*i)
+8) Lambda Expressions are a type of Functional Interface, where they follow the definition of the Abstract Functional Method of the interface.(which means if Abstract Functional Method return int then that respective lambda functions also should return int but not string)
+
+
+
+
+
+1. Method Reference is an alternative to Lambda Expression. It is effective at situations where Lambda Expression is calling an existing method.
+2. syntax: ClassName::methodName 
+	array.forEach(System.out::println) // using method reference
+ex: for(String s: array){
+	Syso(s)
+     }
+	   or 
+    array.forEach(s->syso(s));  // using lambda expression
+	   or 
+    array.forEach(System.out::println);   // using method reference
+3. ex:
+	for(int i: number) {
+			if(i%2==0) {
+				System.out.println(i); // printing even numbers
+			}
+		}
+			or
+	number.forEach((s)->{if(s%2==0) {System.out.println(s);}});
+4. feature of passing arguments is not supported by Method Reference.
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+Streams: sequence of operations
+--> stream creation:
+1) List<String> castList = List.of("Sam","Dean","Castiel","Crowley");
+Stream<String> supernatural = castList.stream();
+2) Integer[] array = {672, 340, 999};
+Stream<Integer> stream = Arrays.stream(array);
+3) Stream<Integer> stream = Stream.of(672, 340, 999);
+
+1. higher order functions:
+	methods which accept the function as a parameter.
+	ex: for each,etc...
+2. List<Integer> numlist =Lisst.of(10,20,30);
+   Stream<Integer> s1=numlist.stream()
+   Stream<Integer> s2 =Stream.of(10,20,30);
+   s1=s1.map(x->x/10);
+   s1=s1.filter(x->x%2==0);
+   s1.forEach(System.out::println);
+3. methods on stream:
+	1. forEach()
+		placesToVisit.forEach(place -> System.out.println("Trip to " + place));
+	2. map()
+		placesToVisit.stream().map(place -> place.toUpperCase()).forEach(place -> System.out.println(place));
+	3. filter()
+		placesToVisit.stream().filter(place -> place.length() == 5).forEach(x -> System.out.println(x));
+	4. sorted()
+		placesToVisit.stream().sorted().forEach(x -> System.out.println(x));
+	5. collect()
+		List<Integer> doubled = number.stream().map(x->2*x).collect(Collectors.toList());
+
+	obj1.stream().sorted((p1,p2)->{
+			if(p1.getRegistrationDate().isBefore(p2.getRegistrationDate())) {
+				return 1;
+			}
+			return -1;
+		}).toList();
+
+
+4. if we apply stream operations(filter,sorted) on one stream then it will become empty after that which means after we cannot perform the same operation.
+(once a stream is operated on it cannot be operated on once more.)
+note:
+	first we applied foreach on stream then after if you apply filter and for each it doesn't through error because in case 1 any oprations is not done only for each is done.
+
+------------------------------------------------------------------------------------------------------
+properties:
+
+1) this is a text file which is having additional info which is useful for overall project and maintained in the form of key: value pair.
+	ex: server.port=8080
+2) Methods:
+	1. Object.getKeys() :   Returns an Iterator containing the keys present in the configuration file (return type - Iterator<String>)
+	2. Object.getProperty(key) :   Returns an object associated with the respective key  (return type is object)
+
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+Configurations configurations = new Configurations();
+PropertiesConfiguration config = configurations.properties("configuration.properties");
+Iterator<String> keys = config.getKeys();
+while (keys.hasNext()) {
+	String key = keys.next();
+	System.out.println(key + " = " + config.getProperty(key));
+}
+
+
+Logging:
+	** using system.out is big violation of good programming so, using logger we can get output in log files and we can get the  output to console without using syso by making some changes in properties file.
+1) it is a process of tracking the execution of the program.
+2) Log4j2 - API used for logging
+3) Log4j2 has 3 main sections:
+	1. logger - redirect the logging info to appender
+	2. Appender - events are stored in the file
+	3. layout -will specifies the formate of storing.
+4) output syntax formate:  <<$timestamp>> <<$LoggingLevel>> <<$Message>>
+5) there are 8 levels:
+	1. All
+	2. TRACE
+	3. DEBUG
+	4. INFO
+	5. WARN
+	6.ERROR
+	7. FATAL
+	8. OFF
+6) we have an option of choosing our own level by: rootLogger.level=all,etc...
+7) steps:
+	1. we want to get logger object
+		public class UserAuthentication {	
+			Log logger = LogFactory.getLog(UserAuthentication.class);
+		}
+	2. if we want to log out data we can use levels:
+		logger.info("Information to be logged");
+	3. if we want to throw exception:
+		MobileServiceException exception = new MobileServiceException(str);
+		LogFactory.getLog(this.getClass()).error(exception.getMessage(), exception);
+		throw exception;
+	4. required files to do logger:
+		1. log4j2.properties file in src/main/resources
+		2. log file in src (no need to create it will automatically will be created)
+	5. 
+	
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Testing:
+
+1) build components (units) ---> Integrated ---> system
+2) testing order:
+	unit testing - integrated testing -system testing - acceptance testing
+
+3) manualtesting: 
+	preparation,I/P expected and output expeteted, execute, test results to be verified manually, indication of failed test cases
+4) automated testing -
+	preparation,I/P expected and output expeteted  by manually
+	execute, test results to be verified manually, indication of failed test cases   using tools
+5) tools:
+	1. Junit(latest version Junit5)
+6) Unit5=JUnit platform + JUnit Jupiter + JUnit vintage
+	1. vintage - to maintain compability ( if now used is version5 but testcases are generated at 3rd vesion then it will complied by v5 because of compability)
+	2. jupiter - to compose new testcases
+	3. third party - adding new functioanlities
+7) testcase(expected o/p, condition, test input) - it is a type of method to test the main method
+8) we will create separate testclass with all testcase.
+	we want to add @Test for method
+9) steps:
+	1. create new package and normal class with method
+	2. create new package and testclass and testcase with @Test
+	3. with in testcase create obj for normal class and call the method in that.
+	4. if method in normal class executes well with out any exception then even if age isvalid or not it will pass the testcase.
+***  the naming convention followed for the test case name is, <methodToBeTested><Valid/Invalid Inputs>Test
+
+public Boolean VotingValidatorage(int age) throws Exception {
+		if(age<0)
+			throw new Exception ("Invalid age");
+		if(age>=18) {
+			System.out.println("Valid");
+			return true;
+		}else  {
+			System.out.println("Not valid");
+			return false;
+		}
+	}
+
+
+
+public void VotingValidatorageTest() throws Exception {
+		VotingValidator obj=new VotingValidator();
+		boolean result = obj.VotingValidatorage(-3);
+		//Assertions.assertTrue(result);
+	}
+
+
+if age =-1 then fails and if age=2 or 22 then testcases passes
+
+10. now we want is if we got desired output then it should pass other wise it should fail, then we can use assert
+	1. assertEquals(Object expected, Object actuals) - passes the test case only if both of the parameters are equal
+	2. assertNotEquals(Object expected, Object actuals) - passes the test case only if both of the parameters are not equal
+	3. assertTrue(boolean condition) - This method accepts a boolean return condition and passes the test case only if the return value is true.
+	4. assertFalse(boolean condition) - This method accepts a boolean return condition and passes the test case only if the return value is false.
+	5. assertNull(Object actual) - This method accepts an object and passes the test case only if the object is null.
+	6. assertNotNull(Object actual) - This method accepts an object and passes the test case only if the object is not null.
+
+11. now we want is for particular exception testcase should pass: use assertThrows
+	1. syntax: assertThrows(Class<Exception> expectedType, Executable executable)
+@Test
+public void validateVoterAgeInvalidTest2() throws Exception {
+	int age = -14;
+	VoterValidator voterValidator = new VoterValidator();
+	Exception exception = Assertions.assertThrows(Exception.class, () -> voterValidator.validateVoterAge(age));
+}
+
+here if output got from voterValidator.validateVoterAge(age) is Exception type then testcase passed 
+
+12. now after getting exception i need to check the msg also:
+	Exception exception = Assertions.assertThrows(Exception.class, () -> voterValidator.validateVoterAge(age));
+    Assertions.assertEquals("Invalid age", exception.getMessage());
+
+13. multiple input can be also send at a time using CsvSource,etc....
+	 @ParameterizedTest
+   	 @CsvSource(value= {"100,false","1003,true","1001,true","1011,false"})
+	 public void validateBoothDetailsTestParameter(int id, boolean expected) throws Exception {
+		Validator validator = new Validator();
+        boolean actual = validator.validateId(id);
+        Assertions.assertEquals(expected, actual);
+    }
+}
+
+14. we have option of grouping similar type of testcase to one group and remaining to multiple or one group using @Tag("Tag name")
+	Tag name rules:
+	1. It should not be null or blank
+	2. It should not have any spaces between characters
+	3. It should not contain any keywords of the Java language or JUnit framework
+15. What is Test Suite?
+	A test suite in JUnit 5 is a collection of multiple packages or classes in which we can execute test cases in multiple packages or classes in one go by adding @Suite annotation in respective class.
+	* helps to run other files at the time of this file execution
+	@Suite
+@SelectPackages({"com.infy.boothvalidatortest","com.infy.votervalidatortest"})
+@SelectClasses({BoothValidatorTest.class , VoterValidatorTest.class})
+public class ElectionTestSuite {
+}
+
+16. if same thing want to do after/ before execution of testcase then always writing makes more complex so to overcome:
+	1. The method annotated with @BeforeAll - beforeMethod()    (at starting of execution of testcase it will execute at once)
+	2. The method annotated with @BeforeEach - beforeEachMethod()(before executing each testcase it will be executed, if testcases=7,then that methods execution=7)
+	3. The test case method - validateVoterAgeValidTest()
+	4. The method annotated with @AfterEach - afterEachMethod()
+	5. The method annotated with @AfterAll - afterMethod()
+
+-----------------------------------------------------------------------------------------------------------------------
+Maven:
+
+target - if we want to deploy your project then final out will be in the form for jar/rar and that will saved in target.
+pom.xml - handles the dependencies(if we want JUnit then we want to include ceratin code in pom then automatically added in jar)
+	<dependency>
+      		<groupId>junit</groupId>
+      		<artifactId>junit</artifactId>
+      		<version>3.8.1</version>
+      		<scope>test</scope>
+    	</dependency>
+src - main coding
+
+
+1. Pom.xml: - project object model
+	1. project info
+		1. version:
+			1. snapshot : project is under construction
+			2. release: deployement will be done
+		2. packaging :
+		3. groupId
+		4. artifactId
+	2. dependencies
+		here we will have dependencies and if we want any new dependencies to be add we will add dependency then automatically jars will be added in maven_depencencies package
+
+	3. build plugins
+		1. optional
+	4. build profile
+		1. optional
+		2. we can create profile for various developer, testers, etc....
+2. general approach of adding jar:
+	download in local machine, goto eclipse, import files
+3. how maven will do:
+	the wanted jar files will be checked first in local if present then ok other check in remote then after central
+3. repositories:
+	1. local repo  : in our local machine (location is: this PC- OSDISK-users-myaccount-m2-repository)
+	2. remote repo : Organizational level 
+	3. central repo: public level
+4. same artifactId is not allowed for two projects.
+5. Direct and transitive are the two types of maven dependencies.
+6. using groupid, artifactid, version we can identigy the projects uniquely
+7. maven help with installing, packages, cleaning but not for debugging
+
+-----------------------------------------------------------------------------------------------------------------
+JDBC - java database connectivity
+
+1. Serialization is the method of converting all the data/objects to byte stream (0’s and 1’s) to transfer the data to the specified storage or repository.
+2. The process of converting back from byte stream to data/object is called as Deserialization.
+3. Data Persistence means for an application to persist and retrieve information from the non-volatile storage. 
+4. JDBC -it is a API
+	1. it is a thing which connect the java application to the database and runs the query.
+	2. this JDBC API requires some drivers to connect java application with database.
+	3. after connection this API have capability to access tabular data from any relational database
+	4. process:
+		java application --- JDBC API --- driver manager(having JDBC driver but initially in stop state) --- java objects --- database
+	5. A driver is a software component that connects two dissimilar environments.
+	6. In order to make connection using driver manager we want jdbc driver,where this driver is registered by loading the class. once class is loaded the static block inside the driver class runs and registers the driver.
+	7. class.forName(class to be loaded ):
+		this one will call the loadclass() method for classLoader which loaded given class,once loaded then driver will be registered with driver manager then driver manager uses this dbc driver and make connection.
+
+
+implement java.sql.Driver interface of JDBC API in order to build a driver class through which a Java application can connect and communicate with their database product. 
+
+	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver"; 
+	Class.forName(JDBC_DRIVER);
+
+	8. create a connection:
+		static final String DB_URL = "jdbc:mysql://localhost:3306/jdbc_demo";
+		static final String USER = "root";
+		static final String PASS = "infy";
+		Connection connection = null;
+		connection = DriverManager.getConnection(DB_URL, USER, PASS);
+	9. Statement is used to execute SQL statements
+		Statement statement = connection.createStatement();
+	10. A ResultSet object, that contains the results of a query, is returned when a SQL Statement is executed.
+		String sql= "select * from employee";
+		ResultSet resultset = statement.executeQuery(sql);
+	11. to print output from resultset:
+		while (resultset.next()) {
+			// getInt() gets the value of a column as integer
+			// getString() gets the value of a column as string
+			// Retrieve by column id
+			int id = resultset.getInt(1);
+			String name = resultset.getString(2);
+			int age = resultset.getInt(3);
+		}
+
+Optional Classes:
+
+1) in normal classes when we run the query, when we got null then resultantset can not store and problem got terminated so to overcome that we will use the optional class
+2) here optional class will use exception to handle such errors
+3) build in methods: 
+	Optional<Employee> op == employee object or null
+	Optional.Of() == used create optional object
+	op.isEmpty()
+	op.isPresent()
+	op.Get()
+	op.OfNullable()
+	op.orElseThrow() ( Employyee emp=op.orElseThrow([]-> new Exception("Invalid!! ")
+4) 

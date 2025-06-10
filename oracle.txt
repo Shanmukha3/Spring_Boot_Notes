@@ -1,0 +1,5 @@
+1.Oracle treats Empty String as NULL. So, it does not allow insertion of Empty string in a NOT NULL column. 
+2. In oracle date will be: 
+3. in DBMS, on delete cascade keyword is there where we can  delete parent even without deleting child.(that particular column in child will be deleted)
+	another way is first delete child then after parent will be deleted.
+4.

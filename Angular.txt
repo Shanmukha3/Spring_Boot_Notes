@@ -1,0 +1,530 @@
+create project:
+	ng new projectname
+1. Create Component:
+	ng g c componentname  or ng generate component componentname
+2. overall execution:
+	ng s --o   or ng serve --open
+3.  ng g d button    - creating the directive
+4.  ng g p salutation    - create pipe
+
+
+
+
+
+tsconfig.json  - define setting and options for typescript compiler.
+package.json   - contains the dependencies
+ng server	- build project and run on browser
+
+-----------------------------------------------------------------------------------
+
+Why typescript:
+1. it supports object oriented features
+2. support features like annotations, decorators, generics.
+3. good number of IDE's support this
+4. typescript will be converted to javascript for making browser to understood the code
+
+Why Angular??
+1. it supports dynamic loading of pages
+2. open source full stack web application but other are open source frontend framework
+3. It is based on components.
+
+
+compilation:
+1. JIT
+2. AOT - more easier and having more advantage like:
+	1. rendering is faster
+	2. help to find the build errors during build time.
+	3. reduce injection attacks
+
+flow of execution:
+ main.ts -- app.module.ts--App component -- index.html(from here we will access app component)
+
+Angular follows MVVM articture:
+1. MVVM - 
+	1. model - structure of entity
+	2. view - visual representation of application written in HTML page.
+	3. modelview - connects model and view (changes in one can made changes in other also)
+-------------------------------------------------------------------------------------------------------------
+Component:
+
+1. @Component is used to make class as component class
+2. component dectortor take parameter as selector, templateUrl, styleUrls
+3. selector will be used as a tag in HTML files
+4. {{}} used to get data from ts file to HTML file (called as interpolation)
+
+
+
+
+-------------------------------------------------------------------------------------------
+Modules:
+
+1. components make total application into chunks but all chunks will be kept under same App module(login, checkout, addto cart,etc..) 
+2. when application is run app modules will be loaded with all components
+3. here until login happen we no need of checkout, cart so to reduce that we will keep login, register in one module and other in one module.
+4. advantage of module:
+	1. in components, all files will be in same module so it gets difficult to maintain and debug the application.
+	2. will not load unwanted components
+5. group of all these components, directives, pipes and services for Users domain and every other domain is called as a Module.
+6. Main module is App module.
+7. module in angular is just another class with @NgModule decorator.
+
+
+app.module.ts:
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [ AppComponent ],
+  imports: [ BrowserModule, AppRoutingModule ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+1. import the required modules and give the path.
+2. NgModule having 4 parts:
+	1. declarations: decleare all the components
+	2. imports : what are to be import to be mentioned
+	3. providers : service files
+	4. bootstrap: root component file
+
+
+
+------------------------------------------------------------------------------------------------------------------
+Data Binding: communication btw HTML page and typescript page.
+1. property binding  -[]   - ts file to html
+2. event binding     -()   - html file to ts
+3. two way binding
+ts class file to html:
+	interpolation, property, attribute, class style
+html file to ts:
+	only event binding
+
+1. Property binding:
+	property is controlling from the ts file.
+	1. In html file:
+	<button [disabled]="buttonStatus">Click Me!!</button>
+	<img [src]='imgUrl' width=200 height=100>
+	2. In ts file:
+		buttonStatus='true';
+		imgUrl: string = 'assets/imgs/logo.jpg';
+	Note: 1. interpolation is alternative to property binding, 
+		2. interpolation is used specially for rendering
+		3. property binding used for changing value based on property.
+	3. both property and interpolation uses DOM properties but not HTML attributes.
+
+2. Attribute Binding:
+	1. if HTML attribues donot have DOM properties we can use attribute
+	2. if we want to control the pure attributes we will use this, ex: -- rowspan
+	3. syntax: [att.]
+	4. <th [att.rowspan]="noofrows">row1</th>
+
+
+3. class binding:
+	1. <button [class.mycss]="isValid">Button</button>
+	2. <button [class.mycss]="isValid ? 'mycss1' 'mycss2'">Button</button>
+
+4. Style binding:
+	1. control css property like color, background color
+	2. <button [style.background-color]="applyStyle? 'orange': 'green'">Button</button>
+	3. <button [style]="applyStyle? 'style1': 'style2'">Button</button>
+
+	style1={
+		color: black,
+		background-color: pink,
+		}
+	style1={
+		color: red,
+		background-color: orange,
+		}
+
+5. Event Binding: 
+	1. syntax: (event i want) ="make function call or assign value"
+	2. <button (click)="changeCourse()">Button</button>
+	
+		changeCourse(){
+			this.coursename="ANgular";}
+	3. <input type="text" #tempVar>
+	    <button (click) ="withTemp(tempVar.value)">Button</button>
+		
+		withTemp(abc:string){
+			this.coursename="ANgular";}
+
+6. Two way binding:
+	1. [(ngModel)]
+	2. to work with it we want to import module called as FormsModule.
+	3. changes will be happening simulataneously
+
+		{{name}}
+		<input type="text" [(ngModel)]='name'>
+
+
+
+------------------------------------------------------------------------------------------
+Directives:
+
+1. DOM(document object model) - representation of tags in HTML file in the form of hirecherial tree.
+2. using directives we can manulipate the DOM(means we can add or remove the tags)
+3. types of directrives:
+	1. component : Components are directives with a template or view.
+	2. Structural directive(even if we want to remove from webpage we can use as hidden but will not remove from dom but what if 1000 of such are there so for loading that all will take time so to reduce the time we will use Directivies, structural will remove from DOM)
+		1. *ngIf
+			1. *ngIf ="false"
+			ex: 
+			<div *ngIf="loginFailed" class="text-center">
+   			<img src="loginfailed.png" alt="login failed">
+			</div>
+
+			  loginSuccess = false;
+
+
+			2. <h2 *ngIf="false;else empVarInngTemplate">this is example for ngIf with else</h2>
+			   <ng-template #empVarInngTemplate>
+				<h3> Else is displayed</h3>
+				<h3>ng-template is use to display this</h3>
+			   </ng-template>
+		2. *ngFor
+			1. <div *ngFor="let c of colors let a=index">
+				<div class="card>
+					<h2>{{a}}-{{c}}</h2>
+				</div>
+			    </div>
+			colors: any[]=[{"red"},{"yellow"}];
+
+		3. *ngSwitch
+			1. <div [ngSwitch]="mychoice">
+				<p *ngSwitchCase="'blue'">First choice</p>
+				<p *ngSwitchCase="'black'">Second choice</p>
+				<p *ngSwitchCase="'red'">Third choice</p>
+				<p *ngSwitchCase="'black'">Fourth choice</p>
+			  </div>
+
+			myChoice: number = 0;
+
+
+			Note: here 2nd, 4th choice will be seen on webpage and DOM remaining will be removed in both.
+	** ngIf and ngFor cannot be used together like. 
+  	<tr *ngIf="destination.charges!=300" *ngFor="let destination of destinations">
+
+	3. Attribute directive()- used to change the appearance of the element
+		1. ngStyle: 
+		    <p [ngStyle]="{
+			color: colorname,
+			'font-weight': fontWeight,
+			borderBottom: BorderStyle
+			}">Demo for attribute</p>
+		Note: colorname, fontWeight, BorderStyle will be come from typescript file
+		2. ngClass:
+			<div [ngClass]="{bordered: isBordered, myColor: isColor}"
+				Border {{isBordered ? "ON" : "OFF"}}
+			</div>
+			note: isBordered, isColor will come from ts file and bordered, myColor act as class in CSS.
+
+-------------------------------------------------------------------------------------------------------
+
+Pipes: before showing the data to user we should transfer the data to one format and show to user like currency making to rupees, changing values into percentage, change any type given text to camel case.
+
+
+1. syntax:
+	without parameters: {{string/property name | name of pipe}}
+	with parameters: {{ value | pipename [: parametervalue1 [: parametervalue2] ] }}
+
+2. we have different pipes:
+	1. uppercase
+		<h2>{{data | uppercase}}</h2>
+	2. lowercase
+		<h2>{{data | lowercase}}</h2>
+	3. titlecase : first letter of word will be capital
+		<h2>{{data | titlecase}}</h2>
+
+	4. currency:
+		1. {{ value | currency [ : currencyCode [ : display [ : digitsInfo [ : locale ] ] ] ] }}
+		2. currencyCode is of string type. 
+			It takes the code to display such as INR for the rupee, EUR for the euro, etc.
+		3. display is the format for the currency indicator. It can take the following values:
+			'code' | 'symbol' | string | boolean
+			'code' - Shows the currency code (such as USD).
+			'symbol' - Shows the currency symbol (such as $)
+			string - Use the given string value instead of a code or a symbol.
+			boolean - (marked deprecated in v5): true for symbol and false for code.
+			Note:  Default is 'symbol'
+		4. digitInfo is a string in the following format
+			{minIntegerDigits}.{minFractionDigits} - {maxFractionDigits}
+			minIntegerDigits is the minimum integer digits to display. Default value is 1
+			minFractionDigits is the minimum number of digits to display after fraction. Default value is 0
+			maxFractionDigits is the maximum number of digits to display after fraction. Default value is 2
+		5. locale is a string type param. A locale code for the locale format rules to use. When not supplied, uses the value of Locale_ID which is en-US by default. It is optional and the default value is undefined.
+
+		Note: data will be string which was declared in ts file
+		
+		{{ 66600 | currency :'INR' :'code' :'1.3'}} <!-- will display INR66,600.000 --> <br>
+	5. Percent:
+		{{ expression | percent [:digitInfo [:locale] ] }}
+		ex: {{ 10/100 | percent}} <!-- will display as 10%-->
+	6. number:
+		{{ expression | number [:digitInfo [:locale]] }}
+
+		{{ 25000 | number }} will display 25,000
+		{{ 25000 | number:'.3-5' }} will display 25,000.000
+	7. date:
+		{{ expression | date [:format [:timezone [:locale] ]] }}
+		1. formate can be:
+		medium' :equivalent to 'MMM d, y, h:mm:ss a' (e.g. Jan 31, 2018, 11:05:04 AM)
+
+'short': equivalent to 'M/d/yy, h:mm a' (e.g. 1/31/2018, 11:05 AM)
+
+'long': equivalent to 'MMMM d, y, h:mm:ss a z' (e.g. January 31, 2018 at 11:05:04 AM GMT+5)
+
+'full': equivalent to 'EEEE, MMMM d, y, h:mm:ss a zzzz' (e.g. Wednesday, January 31, 2018 at 11:05:04 AM GMT+05:30)
+
+'fullDate': equivalent to 'EEEE, MMMM d, y' (e.g. Wednesday, January 31, 2018)
+
+'longDate' : equivalent to 'MMMM d, y' (e.g. January 31, 2018)
+
+'mediumDate' : equivalent to 'MMM d, y' (e.g. Jan 31, 2018)
+
+'shortDate' : equivalent to 'M/d/yy' (e.g. 1/31/18)
+
+'mediumTime' : equivalent to 'h:mm:ss a' (e.g. 11:05:04 AM)
+
+'shortTime' :  equivalent to 'h:mm a' (e.g. 11:05 AM)
+
+'longTime': equivalent to 'h:mm a' (e.g. 11:05:04 AM GMT+5)
+
+'fullTime': equivalent to 'h:mm:ss a zzzz' (e.g. 11:05:04 AM GMT+05:30)
+
+
+	8. slice:
+		{{ expression | slice:start:end }}
+		{{ ['a','b','c','d']| slice:2}} will display c,d
+		{{ 'Laptop Charger'| slice:3:6}} will display top
+		{{ 'Laptop Charger'| slice:-4}} will display rger
+		{{ 'Laptop Charger'| slice:-4:-2}} will display rg
+		{{ 'Laptop Charger'| slice:-4:-4}} will display r
+		{{ 'Laptop Charger'| slice:-4:-5}} will display (nothing will be printed)
+	9. JSON:
+		1. if we write json way in ts file and if we use interpolation it will print object but if we want to print the JSON then this pipe is useful.
+		2. {{ expression | json }}
+
+
+----------------------------------------------------------------------------------------------
+Passing data from container component to child component:
+
+1. in child.ts file:
+	@Input()   --  used when data passed from parent to child
+	userName!:string
+  in child.html:
+	username is: {{userName}}
+   in parent html file:
+	<app-child [userName]"username"></app-child>
+    in parent.ts file:
+	userName= "Shannu";
+		
+-----------------------------------------------------------------------------------------
+Passing data from child component to container component using @Output:
+
+1. EventEmitter
+2. method is emitevent
+3. attribute is emit
+
+...
+export class LoginComponent {
+ @Output()
+ customevent: EventEmitter<number> = new EventEmitter<number>();
+  emitevent(){
+    this.customevent.emit(11);    
+  }
+}
+
+
+-----------------------------------------------------------------------------------------------------
+
+component lifecycle:
+
+1. ngoninit()
+2. ng ondestry()
+
+
+
+--------------------------------------------------------------------------------------------
+
+Custom directive:
+
+1. Attribute custome directory:
+	1. ng g d button    - creating the directive
+	2. accessing custom director: classname.methodname
+	3. @HostListner, @ElementRef
+2. structural Custom directory:
+	1. templateRef, ViewContainerRef
+
+
+
+
+---------------------------------------------------------------------------------------------------
+
+Custom pipes:
+
+
+1. ng g p salutation    - create pipe
+2. after cmd new ts file will be created
+3. decorator used is @Pipes
+3. implements PipeTransform 
+4. in that we will have transform method where we want to write our logic
+5. usage:
+	<h1>{{'Hello' | saluatation: 'F1'}}</h1>
+	hello will be value
+	F1 will be arguments
+
+
+
+------------------------------------------------------------------------------------------
+Services:
+
+1. create new file with ts as extension   --- act as dto we will have only decleration
+	export class Book{
+    		id: number =0;
+    		name: string ="";
+	}
+2. create service class
+	ng g s servicename
+	then servicename.ts will be created
+3. flow: dto--> serice file --> component.ts--> component.html
+
+4. using names in dto file we will add data to service file.
+getAllBooks():Book[] { // Returns an Array of  types
+    return [
+        {"id": 1, "name": "HTML 5"  },
+        {"id": 2, "name": "CSS 3"   },
+        {"id": 3, "name": "Java Script"  },
+        {"id": 4, "name": "Ajax Programming" }
+    ];
+  }
+
+5. with in component .ts file:
+	create object for service.ts and using that object call method in it and store the returning value
+export class BookServiceComponent {
+
+  bookListFromService!:Book[]; // Will store the bookList to be displayed
+  bookService!:BookService; // A variable of BookService type, will be used to populate bookList
+  
+  constructor() { }
+  
+  ngOnInit() { 
+    this.bookService = new BookService(); // Creation of BookService instance using new keyword
+    this.bookListFromService = this.bookService.getAllBooks(); // Invoking the getAllBooks() of bookService to get data
+  }
+}
+
+6. with in component.html file:
+	display the results by calling saved data in component .ts file.
+	
+<div *ngIf="bookListFromService">
+    <table>
+      <tr *ngFor="let book of bookListFromService">
+        <th>{{book.id}}: </th>
+        <td>{{book.name}}</td>
+      </tr>
+    </table>
+  </div>
+
+--------------------------------------------------------------------------------------------------------------------
+Http service:
+
+1. import Httpclient module in app.module.ts 
+2. fetech data from server:
+	1. this.http.get(url)
+	2. http.get default returns an observable
+	3. we are observer and Netflix act as observable, if we want to see any movie we want to subscribe to it.
+
+3. observable having 3 methods:
+	1. next
+	2. error
+	3. complete
+
+4. subscribe will be having 3 arrow function:
+	1. 1st arrow  is for success
+	2. 2nd arrow will be for error
+	3. 3rd arrow will be for complete
+5. Injectable tells to angular that this service file can have its dependency
+
+
+----------------------------------------------------------------------------------------------------------
+
+Routing:
+1. routes for:
+	1. parent (only one is present) - forRoot
+	2. child - forChild
+2. keep in html:
+	<router-outlet></router-outlet>
+3. with in routing.module.ts add below statement within routes:
+	{path:'pipes',component:PipesComponent},
+
+then click like localhost:4200/pipes
+
+If we want to keep buttons:
+1. in html:
+	<a [routerLink]='["/pipes"]'>pipes</a>
+	<router-outlet></router-outlet>
+2. with in routing.module.ts add below statement within routes:
+	{path:'pipes',component:PipesComponent},
+
+
+1. if we want to keep certain components as default first page then keep like this in app-routing-module.ts:
+	{path:'',redirectTo:'user-profile',pathMatch:'full'},
+        {path:'user-profile',component:UserProfileComponent},
+
+
+1. wild card routing:(always should be at last line)
+	if we enter invalid URL it will redirect to 4200 port but not to home page so to make home page at that situation:
+	{path:'**',redirectTo:'user-profile',pathMatch:'full'}
+
+
+1. if we want to pass a parameter:
+	{path:'user-profile/:data',component:UserProfileComponent}
+2. /: used to pass the parameter
+3. routes will be checked in sequential way.
+
+	
+
+if we click on button then it should navigate to other component:
+
+<button (click)="move()">click me</button>
+
+
+export class AppComponent {
+  constructor(private router: Router){
+
+  }
+  title = 'myproject';
+
+  move(){
+    this.router.navigate(['/pipes', ]);
+  }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+
+1. form are 2 types:
+	1.Template driven form
+		1. ngForm
+			1. currect state of the form
+		2. ngModel
+			2. get data of each field
+		3. ngSubmit
+			4. will be trigreed when we click on submit
+	2. Reactive form or model driven forms: we will create controls in ts and connect with HTML
+		1. formGroup
+		2. formControl
+		3. import ReactiveFormsModule
+		4. 
+2. validators:
+	1. valid : if matches
+	2. invalid : if not matches
+	3. dirty  : written something then dirty is true
+	4. pristine : touched but undirty then pristine is true
+	5. touched: when we touch the form it is true
+	6. untouched: if not touched to anything in the form it is true
+
+	

@@ -1,0 +1,295 @@
+1. SQL - different people will ask to computer for same scenior which makes computer confused and clumsy so to make this process easier we came with SQL.
+2. types of language:
+	1. DDL - create, alter, drop, truncate
+	2. DML - Insert, update, delete, select
+	3. DCL - Grant, Revoke
+	4. TCL - Commit, Rollback
+3. alter is applied on table, update is applied on data.
+4. truncate does not allow to use where class and it doesn't support rollback, remove all rows at once.
+5. remove - support where class, we have option to remove only certain rows, support rollback, remove rows in order because it maintain logs for removing.
+
+Datatypes:
+
+1.main purpose of datatypes is :
+	1.correct assigning of space
+	2.correct type assigning
+2.char(L) -L length address will be assigned( if we use less memory than L, extra memory will not sent back so it is wasted)
+	even without declearing length we can use (default length =1)
+3.Varchar(L) -  
+	1.inside bracket should be in double codes.
+	2.length should be mandiatory
+4. Integer - take only whole numbers
+5. Numeric(a,b): a=precision and b=scale , scale means after dot how many digits, precision = total no of digits.
+	Numeric(5,2)=3 whole number digits and 2 decimal points
+	can 234.546 placed in that?? Yes, stored as 234.55
+	can 234.544 placed in that?? Yes, stored as 234.54
+	can 2344.5 placed in that?? No
+	can 999.998 placed in that?? No
+	can 234.59 placed in that?? Yes
+
+6.Numeric(a) - single parameter also accepted(similar to 
+	Numeric(2,0)
+	99.1 can it store??
+	Numeric(3,0)
+	99.6 can it store??
+7.default date in HSQL - YYYY-MM-DD
+8.In HSQL, 
+	Not Equal to - <>
+	assignment   - =
+	equal check  - =
+9. Between(range operator): ex - check(Between 12 and 18)
+10. IN(list operator) ex: check (dept in("CSE","ECE"))
+11. Like ( will support %(any number of characters) and _(support single character))
+12. to find null values: use IS keyword 
+	rollno is NULL;
+13.  7.80 * 34.587  = 269.77860
+	1st term decimal has 2 parts, 2nd term decimal has 3 digits so total output will have 2+3=5 digits.
+14.the result of division and AVG aggregate function is same as the higher scale value of the terms involved
+     7/3 = 2
+
+     7.0/3 = 2.3
+
+     7.0/3.00 = 2.33
+15.Constraints:
+	1. primary key  : values should be unique and can not allow null values
+	2. unique value :values should be unique and can allow null values
+	3. not null 	: value compulsory should be entered
+	4. check	:check the condition
+	5. default	:we will give some value, if user given then that new value will over ride old value.
+	6. foreign key	:
+	create table student( rollno integer constraint name_of_constraint primary key,	
+				name varchar,
+				age integer constraint age_constraint not null);
+	create table student( rollno integer primary key,	
+				name varchar,
+				age integer not null);
+	create table student( rollno integer primary key,	
+				name varchar,
+				age integer check(age>18));
+	create table student( rollno integer primary key,	
+				name varchar,
+				age integer check(age>18),
+				email varchar(50) unique);
+	create table student( rollno integer primary key,	
+				name varchar,
+				age integer check(age>18),
+				email varchar(50) unique,
+				doj date default sysdate);
+16. constraints types:
+	** NOT NULL constraint can be specified at column level only.**
+	**All column level constraint except NOT NULL can be defined in table level but no table level constraint can be defined in column level. **
+	1. attribute level constraint ( involving one attribute come under this, and this constraint are kept at end of attribute)
+	2. table level constraints (
+		case1:  involving more than one attribute come under this, and this constraint are kept separately in table by comma as separator
+		case2 :involving one attribute can also come under this when  we can kept seperatly by comma separator at end) 
+	create table student(
+	rollno integer,
+	email varchar(30),
+	doj date,
+	fname varchar(30) not null, // attribute level constraints 
+	lname varchar(30),
+	primary key(rollno, email), //table level constraints 
+	doj default sysdate);       //table level constraints 
+17. create table marks(rollno integer reference student(rollno));
+		or
+    create table marks(rollno reference student(rollno));		//foreign key
+
+18.Alter:
+	** Writing COLUMN keyword is optional in all the above Alter statements.**
+
+	alter table table_name add column address varchar(30);  //add new column
+	alter table table_name alter column address varchar(30);// change datatype or size
+	alter table table_name alter column address rename to home_address; // changing column name
+	alter table table_name drop column home_address;	// remove the column
+	
+19. Drop : drop table table_name.
+	parent table can not be deleted without deleting child.
+20.IN case reference there:
+
+in DBMS, on delete cascade keyword is there where we can  delete parent even without deleting child.(that particular column in child will be deleted)
+	another way is first delete child then after parent will be deleted.
+In HSQL:
+	** drop table computer if exists cascade.
+
+20.Truncate:delete all the rows in one shot.(structure will be present)
+
+-----------------------------------------------------------------------------------------------------
+DML:
+
+1. Insert:
+	3ways-
+	insert into student values(204," shannu", 21, 'sudhakiran0308@gmailcom', '2003-08-03');
+	insert into student(name,age, mail,ID,dob) values("shannu", 21, 'sudhakiran0308@gmailcom',204, '2003-08-03');
+	insert into computer(id,make) select (comid, model) from employee.
+	* String data is case sensitive and will be stored as given within quotes. If the data is numeric, you don't need quotes. NULL also should not be enclosed within quotes otherwise it will be treated as a string.
+
+2.update command:
+	update employee set bonus =50000;
+3. delete:
+	delete from table_name;
+	1. similar to truncate
+	2. here we have chance to use where class.
+	3. maintain logs so rollback can be possible.
+4. select:
+	select *from student;
+5.when using between operator:
+	1. for number: both extremes values are included
+	2. for characters: lower extreme is included but upper extreme will not be included.
+6.In : list operator
+7.Is null: to check whether value is null or not.(ex: where bonus is null)
+8.In strings while checking:
+	trailing spaces is allowed but leading spaces will not be allowed
+9.Distinct: it will take all null values are same and it will give null as output when it is there in data.
+	* distinct should be immediately after select keyword, if not kept then it will show error.
+	* select distinct dept, id from student.---- for this it will not only see dept as distict it will take total attributes after distinct as composite attribute and check as distinct(composite) and give as grouped way of dept.
+10.like:
+	%- for each %, no of characters will be >=0
+	_ - for each_, no of characters will be =1
+11.order of execution:
+	F J W G H S D O( From, Join, Where, Group by, Having, Select, Distinct, Order by)
+12. 
+
+-----------------------------------------------------------------------------------------------------
+Functions:
+	numeric     - ceil(var), floor(var), round(var,max scale), abs(var)
+		round(12.22,1)=12.2
+		round(12.22,3)=12.22
+	character   - upper(var), lower(var), length(var), substr(var, starting point, length), concat(st1, str2)
+		in string first character will be start with 1 index.
+		length is optional(if not given then i will go upto end)
+		concat(str1,str2) is similar to str1 || str2
+	conversion  - to_char(doj,'mm'), to_char(doj,'dd'),to_char(doj,'yy')
+		if we give:
+			'mm' - number of the month 
+			'Mon' - first 3 letters of month
+			'Month' - total month name as January
+			'Day' - day will be given
+			'dd-mm-yyyy' - will change the formate
+	Date        -
+		select to_date(recorddate,'dd/mm/yyyy') actual_format from employee.
+		function in date:
+		1) SYSDATE
+		2) Current_Date
+		3) Add_Months(date1, months)
+		4) Months_Between(date1,date2)
+		5) dateadd('day',no of days,date_column)
+	Aggregate   - min(), sum(), max(), avg(), count()
+		count() -- will not consider the null values.
+
+	mislicionous functions:- NVL(attribute name, 'value'),
+		NVL- null value label
+		NVL()- we can fill the null values with other values
+
+-------------------------------------------------------------------------------------------
+Order By:--
+	should be used at last.
+	ASC, DESC
+	order by 1:-- it is saying that sort by 1st wanted parameter.
+	order by can be applied for multiple attributes.
+	orderby(att1,att2,att3) - first it will order b att1, if there is match in values then only it will check for att2 ,if same values in att2 then will go to att3.(if att1 have different values then no use of att2,3).
+
+
+-------------------------------------------------------------------------------------------
+group by:
+	can group by multiple attributes (where all are used but not like as order by).
+	for displaying particular attribute it should be present in group by also(if multiple then it should be in same order also).we can use aggregate functions freely without keeping in group by.
+	
+
+Having: checking condition of group by.
+	where - it can be used to check condition table level data.
+	Having - it can be used to check condition group level.
+WHERE						HAVING
+Filtered individual rows			Filter groups
+Aggregate functions cannot be used		Aggregate functions can be used
+Faster than HAVING				Slower as compared to WHERE
+ 
+--------------------------------------------------------------------------------------------
+set operations:
+1. Union :
+	no of attributes in both select statements should be same
+	their datatype should be matching.
+2. Union all: will allow dublicate values.(1st select statement output followed by 2nd select statement output)
+3. Intersect :common records of A and B.
+4. Except :A-B, B-A
+----------------------------------------------------------------------------------------------
+Joins:
+1. cross join: (A * B)
+	result table:
+	1. rows will be multiplied
+	2. columns are added.
+	3. not required of any common column
+	4. select * from employee e cross join computer c;
+2. inner join(theta join) where theta can be =(equi join),<,>,>=.<=,<>: (cross join with a condition)
+	1. here there should be one atleast one common attribute
+	2. in syntax condition can be given using on keyword
+	3. select * from employee e inner join computer c on e.compid =c.compid;
+	result table:
+	1.columns will be added
+3. self join: (A * A)
+	result Table:
+	1. rows will be multiplied
+	2. column will be added
+	3. same as cross join but A * B as a A * A
+4. outer join
+	1.left outer join: 
+		1. select * from employee e left outer join computer c on e.compid =c.compid;
+		2. All rows of left table + common values from right table + null values if any thing not present
+	2.right outer join: 
+		1. select * from employee e right outer join computer c on e.compid =c.compid;
+		2. rows matching join condition + left out rows from right side table
+	3.full outer join: 
+		1. select * from employee e full outer join computer c on e.compid =c.compid;
+		2. rows matching join condition + left out rows from left side table + left out rows from right side table
+** usage of condition in where clause or using AND does't make any change in inner join, but it makes different with outer joins. 
+
+-------------------------------------------------------------------------------------------------
+inner queries:
+
+1. independent sub query
+2. corelated sub query 
+
+1. subquery can be written in:
+	1. from
+		select * from (select id, ename, dept from employee) A.
+	2. select
+		select id, name, (select avg(salary) from employee) from employee.
+	3. where
+		select id, ename from employee where salary > (select avg(salary) from employee)
+	4. having
+		select *from employee group by dept having count(*) = (select max(A.empcount) from(select count(*) empcount from employee group by dept) A).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+create table Subscription(
+    SubscriptionId varchar(4) primary key check(SubscriptionId like 'S%'),
+    JournalId varchar(4) references Journal(JournalId),
+    CustomerId varchar(4) references Customer(CustomerId),
+    StartDate date default sysdate,
+    DurationInMonths integer default 3 not null check(DurationInMonths >0) ,
+    Discount numeric
+);
