@@ -1,3 +1,18 @@
+Protocol:
+1. there should be some rules btw serverside and web browser side to communicate safiely such rules are called as protocol. one among them is HTTP
+
+HTTP:
+1. hypertext transfer protocol
+2. HTTP is a request/response based stateless(each request is executed independently) and connectionless(because for every request new connection is established) protocol
+3. it establies request based on user to server side, response is sen din same connection, once it is delivered then connection will be terminated
+
+HTTPS:
+1. the data that was exchanged in http connection can be listen easily by gaining access to the network. so to overcome this HTTPS came.
+2. Hyper text transfer protocol over secured socket layer. communication is encrypted.
+
+
+------------------------------------------------------------------------------------------
+
 1. <!DOCTYPE html> 
 2. <html></html>
 	1. <head></head>
@@ -16,15 +31,15 @@
 		6. <span>
 
 
-3. Types of element:
-	1. container element	: title
-	2. empty element	: br
+3. Types of element based on content:
+	1. container element	: title (like paired tag)
+	2. empty element	: br (like unpaired tag)
 
-4. Types of element:
-	1. block		: h1, p, div, form
-	2. inline		: span, a, img
+4. Types of element based on layout:
+	1. block		: h1, p, div, form (starts on new line, takes up full width available)
+	2. inline		: span, a, img, input, label ( Do not start on new line)
 
-5. Meta data: to tell some info about website to the browser by keywords or etc..
+5. Meta data: to tell some info about website to the browser by keywords or etc.. which helps to get this website while searching by users.
 	1. name :  Specifies a name for the metadata
 		1. application-name
 		2. author
@@ -53,6 +68,20 @@ ex: <meta name="keywords" content="tutorial,HTML">
 	h5-13.28
 	h6-10.72
 	p -16
+-------------------------------------------------------
+name VS id VS for VS Value:
+
+1. name:
+	1. identify form fields when the form is submitted
+	2. it can be reused
+2. Id: 
+	1. when used for element, then for that element it gives the unique identifier in whole page
+	2. must be unique in code
+3. for:
+	1. will be used in label for mapping with id
+
+4. value:
+	1. define data that is sent to backend
 -------------------------------------------------------------------------------
 1. <form
 	name="Name of the form" 
@@ -65,18 +94,18 @@ ex: <meta name="keywords" content="tutorial,HTML">
 	action: after submitting where should data should go
 	method: way in which u want to submit the data
 		get : send by adding data to URL
-		Post: send as request body
+		Post: send data to backend as request body
 	Target: where to display the response once the form is submitted.
 	1. default method is GET.
 	2. In http basic methods are:
-		1. Get
-		2. Post
-		3. Put
-		4. Delete
-		5. Trace
-		6. Head
-		7. Options
-		8. Connect
+		1. Get		- to get the values from backend based on value send from fronted and will be send through URL string
+		2. Post		- to send new data to backend to save.
+		3. Put		- update/ replace data
+		4. Delete	- remove data
+		5. Trace	- 
+		6. Head		-works like get but get only name of file but bot content
+		7. Options	- checks the which methods of allowed to apply
+		8. Connect	- 
 
 2. <input type="input-type" value="element-value"/>
 	1. Value attribute is used to specify the element's value that will be sent to the server program.
@@ -105,7 +134,7 @@ ex: <meta name="keywords" content="tutorial,HTML">
  <label for="emailId">Email ID</label>
  <br>
  <input type="email" name="emailId" id="emailId">
-	note:  The value of for attribute should be the same as the value of the id attribute in the input element.
+	note:  The value of for attribute in label should be the same as the value of the id attribute in the input element.
 
 6. Attributes of forms:
 	1. required-	Value required for form submission.
@@ -117,9 +146,9 @@ ex: <meta name="keywords" content="tutorial,HTML">
 	7. maxlength-	Identifies the maximum length of input value.
 	8. minlength-	Identifies the minimum length of input value.
 	9. pattern-	Specifies a pattern (regular expression) for entering input text. 
-	10. placeholder-	Displays a text (hint) within an input control for the user.
+	10.placeholder- Displays a text (hint) within an input control for the user.
 	11. steps-	Specifies the legal number of intervals.
-	12. formnovalidate-	Skips validations for forms upon form submission, used with submit button. 
+	12. formnovalidate- Skips validations for forms upon form submission, used with submit button. 
 	novalidate-	skip validation for fields in form
 	13. readonly-	Prevents user from modifying the value, value will passed on submit
 	14. disabled-	Prevents from modifying the value, value is not sent on submit
@@ -184,21 +213,120 @@ Anchor:
 	2. _self  : open in same window
 	3. _parent: open in the parent of the current window
 	4. _top   : open in the top most level window of the current window
-3. 
+3. when using _blank then there is problem of security so to overcome that we will keep link rel="noreferrer noopender"
+4. to get info about anchor tag we will have title attribute for anchor tag.
+    <a href="link" title="searching something in google"> Google </a>
+
+
+------------------------------------------------------------------------------------------
+Styling:
+1. there are 3 types of styling:
+	1. inline
+	2. Internal
+	3. External
+2. <link href="link" rel="stylesheet">
+
+
+
+------------------------------------------------------------------------------------------
+Audio:
+
+1. <audio src="audio.mpeg" type= "audio/mpeg" controls> Click here </audio>
+2. audio attributes:
+	1. loop
+	2. autoplay
+	3. muted
+
+3. source tag is used to define multiple resources.
+    <audio controls>
+	<source src="ooty_city" type="video/mp4">
+	<source src="audio" type="audio/mp3"> can not play
+    </audio>
+
+
+------------------------------------------------------------------------------------------
+Video:
+
+1. <video src="video.mp4" type= "video/mp4" controls> Click here </video>
+2. video attributes:
+	1. loop
+	2. autoplay
+	3. muted
+
+------------------------------------------------------------------------------------------
+Image: 
+
+1. <img src="image.png alt="Image not found">
+2. <img width="100px" height="200px"  src="image.png alt="Image not found">
+3.  <img width="20%" height="20%" src="image.png alt="Image not found">
+     <figcaption>new Image</figcaption>
+
+	src, border, width, height, alt
+------------------------------------------------------------------------------------------
+Text formatting:
+
+1. different types of text formatting tags are:
+	1. <b>		bold
+	2. <del>	delete
+	3. <em>		
+	4. <i>		italic 
+	5. <ins>	describe inserted text
+	6. <mark>	describe highlighted text
+	7. <small> 	small text
+	8. strong       bold text
+	9. sub      subscript
+	10. sup     superscript
+
+------------------------------------------------------------------------------------------
+
+List elements:
+1. unordered
+	<ul>
+		<li></li>
+	</ul>
+   ---- 
+	<ul type= "disc">
+		<li></li>
+	</ul>
+	type can be disc, circle, square
+2. ordered
+	<ol>
+		<li></li>
+	<ol>
+    ---
+        <ol type="1">
+		<li></li>
+	<ol>
+	type=1,i,a,A,I
+3. description
+	<dl>
+		<dt></dt>
+		<dd></dd>
+	</dl>
+------------------------------------------------------------------------------------------
+
+Reserved words:
+
+1. &lt -less than
+2. &gt - greater than
+3. &nbsp - tab space
+4. &copy - copyright symbol
+5. &reg  - registered symbol
+6. 1og<sub>10</sub>  - subscript
+7. 5<sup>3</sup>     - superscript
+8. &amp - ampersand
+9. &trade - TM( trade mark)
+
+------------------------------------------------------------------------------------------
+Web worker:
 
 
 
 
 
 
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------------------------
+Web socket:
 
 
 
