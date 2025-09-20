@@ -12,6 +12,7 @@ CSS RWD and media Queries
 ol>li*2>li> enter
 Alt + shift + downarrow - to get same thing in above one
 ctrl + D  - to select all such words
+style applied for parent class will also applied for child class also but not for all childs, it is with only immediate childs
 ---------------------------------------------------------------------------------------------
 
 1. CSS is a decelerative language which means we don't bother about what happen on backend just we will use for application.
@@ -64,7 +65,7 @@ ctrl + D  - to select all such words
 				3.  selects all elements that match 2nd selector
 		
 4. Precedence of Selectors:
-	1. id > class > Type
+	1. id >span[id='text']> class > Type
 5. types of CSS adding:
 	1. inline
 		1. <element style="property1:value1;property2:value2">Content</element>
@@ -74,6 +75,10 @@ ctrl + D  - to select all such words
 	2. Embedded(internal)
 	3. External
 		1. <link rel="stylesheet" href="Path of the CSS file">
+
+
+	inline > id >class >element(if required use)
+
 6. inheritance styling:
 	1. Inheritance is a mechanism where the styling properties of the parent will be passed down to the children.
 	2.  styling was applied for the body tag. But the color was applied for every element inside the body tag. This phenomenon is called Inheritance.
@@ -91,6 +96,7 @@ ctrl + D  - to select all such words
 		2. :visited	Styles the state of link when link is visited atleast once.
 		3. :hover	Styles the state of the link when mouse is placed over the link.
 		4. :active	Styles the state of the link, when you can click on the link.
+		5. correct order of writing pseudo classes are(top to bottom) - link , visited, hover, active
 
 	4. styling input field:
 		1. :focus	Styles the state of element that is currently targeted or activated by mouse.
@@ -99,7 +105,7 @@ ctrl + D  - to select all such words
 		4. :checked	Styles the state of element when it is selected.
 
 8. Pseudo Elements:
-A CSS pseudo-element can be taken as a keyword that is added to a selector which lets you to design a specific part of the selected elements. 
+	A CSS pseudo-element can be taken as a keyword that is added to a selector which lets you to design a specific part of the selected elements. 
 	1. input::placeholder{ 
             color:red; 
             font-style:italic; 
@@ -162,11 +168,15 @@ position property:
 		2. will scroll along with scroller
 		3. here top, left, right, down will not work
 	2. Absolute 
-		1. will shift from its position using movement of position with respect to its parent position.
-		2. will not scroll along with scroller
+		1. will shift from its position using movement of position wrt its parent position. if parent unavailable then HTML body is paren
+		2. will scroll along with scroller
+			div{ position: absolute; top: 20px; left: 30px;}
+			here image will move 20px from top of the page and 30px from left of page(ancestors)(not from where is kept)
 	3. Relative :
 		1. will shift from its position using movement of position
 		2. will scroll along with scroller
+			div{ position: relative; top: 20px; left: 30px;}
+			here image will move 20px  top and 30px left from where it normally would be.
 	4. Fixed :
 		1. it will not scroll along with scrolller
 		2. fixed at that postion
@@ -178,14 +188,82 @@ position property:
 FlexBox:
 Flexbox is one of the most widely used CSS properties that help us to align elements in given available space.
 1. flex supports both expansion and shrinking.
+2. properties of flexbox elements are:
+	1. display
+		values for display:
+			1. flex  : the container where display value is flex then remaining properties will be spread over the whole page.
+			2. inline -flex  : the container where display value is inline-flex then rem propoerites will be spread upto content is present.
+			3. block  : then element will behave like block level element(means starts form new row)
+			4. inline block  : then container tries to fit all elements to block level in that line .
+	2. flex-direction
+		values for flex-direction:
+			1. row   : elements will be aligned horizontally
+			2. row-reverse  : elements will be aligned horizontally but revrse order
+			3. column
+			4. column-reverse
+	3. flex-wrap
+		values are:
+			1. nowrap  : not useing anything
+			2. wrap   : once the max width of screen is reached then elements wil go to next line
+			3. wrap-reverse  : here order is same from left to right but it's not from top to bottom - it is bottom to top 
+				ex:  D E
+				     A B C     will be output if input is A B C D E
+	
+	.container{
+		padding: 10px;
+		border: 2px solid black;
+		display: inline-flex;
+		flex-direction: row;
+		flex-wrap: wrap-reverse;
+		}
+
+4. properties of flexbox:
+	1. align-items: used to align items at different parts of container vertically
+		start, end, center,etc
+		ex: align-items: flex-start;
+	2. justify-content : used to align items at different parts of container Horizontally
+		justify-content: center;
+
+
+
+---------------------------------------------
+1. span + p - p that is just after adjacent sibling of span
+2. span * p - select p that is inside span or inner of span or inner inner of span........
+3. span ~ p - select every p that come after span even at far 
+4. span > p -select p that is direct child of span(just inner p not inner inner p),in between any one there dont take any thing even p because it not inner.
+5. span < p - not valid
 
 
 
 
+variations of attriutes selectors:
+	1. $= usage - last same
+	2. slign='right'    - excat matching
+	3. ~=  attribute in space separated list
+	4. *=  attribute in anywhere in text( no need of spaces)
+	5. ^= starting with
+
+
+
+CSS media queries with logical operators:
+	1. and - combine multiple conditions
+		@media screen and (min-width: 600px) and (max-width: 1200px){
+			body{
+				background: red;}}
+	2. not  - styles applie if condition is false
+	3. only - specific to particular value
+		@media screen and (max-width: 1200px){
+			body{
+				background: red;}}
+	4. , OR - if any condition is true it is enough
+
+		
 
 
 
 
+** correct order of writing pseudo classes are(top to bottom) - link , visited, hover, active
+* absolute position - element leaves normal flow and arrange itself to nearest position ancestor
 
 
 
